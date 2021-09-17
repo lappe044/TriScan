@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/toggle-nav.js"></script>
+    
+    <title>Login</title>
+    <style>
+        html {
+             
+             background: url("images/school.jpg") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+             -o-background-size: cover;
+            background-size: cover;
+        }          
+       
+    </style>
+</head>
+<body>
+
+        <div id = "background">
+
+        <div id = "container">
+            
+            <form action="login.php" method="post">
+
+            <h3>TriScan</h3>
+
+            <input type="text" placeholder="Enter Username" name="username" id="username" required>
+            <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+            <button type="submit" onclick="document.location='index.html'">Login</button>
+
+            
+            <!----put into flexbox-->
+            
+            <button type = "button" class="create" onclick="document.location ='create_account.html'">Create Account</button>
+            <button type = "button" class="pass" onclick="document.location='forgot_pass.html'"">Forget password?</button>
+    
+            </form>
+            
+              
+        </div> 
+        </div>
+       
+</body>
+</html>

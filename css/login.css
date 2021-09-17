@@ -1,0 +1,86 @@
+#container,
+#container2,
+#container3 {
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  margin: auto;
+  margin-top: 150px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+#container2 {
+  margin-top: 70px;
+}
+
+#container3 {
+  width: 60%;
+}
+
+h3 {
+  text-align: center;
+  color: white;
+}
+
+p {
+  text-align: center;
+  color: white;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 15px 0;
+  display: inline-block;
+  box-sizing: border-box;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid rgb(187, 180, 180);
+  color: #c5ecfd;
+}
+
+label {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+button {
+  background: #2e8db6;
+  color: white;
+  padding: 14px 20px;
+  margin: 15px 0;
+  border: none;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.create,
+.pass {
+  width: auto;
+  padding: 8px 16px;
+}
+
+.pass {
+  float: right;
+}
+
+::-webkit-input-placeholder {
+  color: #c5ecfd;
+}
+::-moz-input-placeholder {
+  color: #c5ecfd;
+}
+::ms-input-placeholder {
+  color: #c5ecfd;
+}
