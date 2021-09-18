@@ -43,7 +43,7 @@ select {
   background: transparent;
   border: 0;
   border-bottom: 2px solid rgb(187, 180, 180);
-  color: #c5ecfd;
+  color: white;
 }
 
 label {
@@ -76,11 +76,11 @@ button:hover {
 }
 
 ::-webkit-input-placeholder {
-  color: #c5ecfd;
+  color: white;
 }
 ::-moz-input-placeholder {
-  color: #c5ecfd;
+  color: white;
 }
 ::ms-input-placeholder {
-  color: #c5ecfd;
+  color: white;
 }
