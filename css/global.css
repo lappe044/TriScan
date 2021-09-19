@@ -12,11 +12,22 @@ body {
   overflow: auto;
 }
 
+.sidebar a.picture {
+  padding: 0px;
+}
+
+.sidebar img {
+  padding: 0px;
+  margin: 0px;
+  width: 200px;
+}
+
 .sidebar a {
   display: block;
   color: white;
   padding: 16px;
   text-decoration: none;
+  box-sizing: border-box;
 }
 
 .sidebar a.active {
@@ -30,54 +41,50 @@ body {
 }
 
 .content {
-  position: absolute; 
-  height:100vh;
-  height: 100%; 
-  width: 100%; 
-  box-sizing:border-box; 
-  
+  position: absolute;
+  height: 100vh;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.right_content{
+.right_content {
   margin-left: 200px;
 }
 
-.header{
-  height: 300px; 
+.header {
+  height: 300px;
   border-bottom: darkgrey solid 1px;
-   
 }
 
-.centered{
+.centered {
   background: lightgrey;
-  height: 100vh; 
-  width: 100%; 
+  height: 100vh;
+  width: 100%;
 }
 
-.cards { 
+.cards {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.card{
-  margin: 10px 0px 0px 10px; 
+.card {
+  margin: 10px 0px 0px 10px;
   background: #2e8db6;
   flex: 0 1 calc(25% - 1em);
-  height: 100px; 
+  height: 100px;
   box-sizing: border-box;
 }
 
-.card a{
-  display:block; 
-  color: white; 
+.card a {
+  display: block;
+  color: white;
   text-decoration: none;
-  height: 100%; 
-  width: 100%; 
-  text-align: center; 
-  
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
-
 
 @media screen and (max-width: 700px) {
   .sidebar {
@@ -102,12 +109,12 @@ body {
 
 @media screen and (min-width: 40em) {
   .card {
-     max-width: calc(50% -  1em);
+    max-width: calc(50% - 1em);
   }
 }
 
 @media screen and (min-width: 60em) {
   .card {
-      max-width: calc(25% - 1em);
+    max-width: calc(25% - 1em);
   }
 }
