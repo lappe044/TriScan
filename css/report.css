@@ -83,7 +83,7 @@ h2 {
 .bottom {
   width: 98%;
   position: relative;
-  background: grey;
+  background: #eeeeee;
 }
 
 .bottom > span {
