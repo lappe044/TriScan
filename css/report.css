@@ -20,9 +20,9 @@
   box-sizing: border-box;
   display: flex;
   width: 50%;
-  height: 90%;
+  height: 100%;
   background-color: white;
-  margin: 10px;
+  margin: 40px;
 }
 
 .report img {
@@ -34,11 +34,11 @@
   background-color: white;
   display: flex;
   width: 50%;
-  height: 90%;
+  height: 100%;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0px;
-  margin: 10px;
+  margin: 40px;
 }
 
 .percentages {
@@ -52,7 +52,7 @@
 #plag,
 #sim,
 #gram {
-  height: 20%;
+  height: 30%;
   width: 100;
   margin-left: 10px;
   display: flex;
