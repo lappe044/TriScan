@@ -1,24 +1,26 @@
+.content {
+  background-color: #eeeeee;
+  overflow: auto;
+}
+.title {
+  width: 100%;
+}
 .title h1 {
   text-align: center;
 }
 
-.title {
-  background: white;
-}
-
-.report_container {
-  box-sizing: border-box;
+.right_content {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100%;
-  background-color: lightgrey;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 .report {
-  width: 48%;
   box-sizing: border-box;
   display: flex;
+  width: 50%;
+  height: 90%;
   background-color: white;
   margin: 10px;
 }
@@ -30,8 +32,9 @@
 
 .key {
   background-color: white;
-  width: 48%;
   display: flex;
+  width: 50%;
+  height: 90%;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0px;
@@ -49,9 +52,11 @@
 #plag,
 #sim,
 #gram {
-  height: 33.33%;
+  height: 20%;
   width: 100;
   margin-left: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 h2 {
@@ -60,6 +65,34 @@ h2 {
 
 .fa {
   color: #2e8db6;
+  width: 10%;
+}
+
+.right_bar {
+  display: inline-block;
+  height: 38px;
+  width: 90%;
+}
+
+.top,
+.bottom {
+  height: 50%;
+  flex-direction: column;
+}
+
+.bottom {
+  width: 98%;
+  position: relative;
+  background: grey;
+}
+
+.bottom > span {
+  display: block;
+  height: 100%;
+  background-color: #2e8db6;
+
+  position: relative;
+  overflow: hidden;
 }
 
 .references {
