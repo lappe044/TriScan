@@ -100,3 +100,37 @@ h2 {
   width: 100%;
   height: 50%;
 }
+
+.reference,
+.reference_last {
+  border-bottom: 3px solid #eeeeee;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.reference_last {
+  border-bottom: 0px;
+}
+
+.num {
+  align-items: center;
+  height: 100%;
+  width: 5%;
+}
+
+.num p {
+  background: #2e8db6;
+  color: white;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.website {
+  height: 100%;
+  width: 95%;
+  align-items: center;
+  font-size: 15px;
+  padding: 10px;
+}
