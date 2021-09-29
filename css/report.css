@@ -1,15 +1,15 @@
-.content {
-  background-color: #eeeeee;
+body {
+  background: #eeeeee;
   overflow: auto;
   font-family: "Merriweather", serif;
 }
+
 .title {
   width: 100%;
   color: black;
   text-align: center;
 }
 .title h1 {
-  text-align: center;
   color: black;
 }
 
@@ -23,6 +23,7 @@ p {
   box-sizing: border-box;
   height: 100%;
   margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .report {
@@ -131,15 +132,15 @@ h2 {
 
 .num {
   align-items: center;
+  background-color: #2e8db6;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 20px;
+  padding: 10px;
   height: 100%;
   width: 5%;
-}
-
-.num p {
-  background: #2e8db6;
-  color: white;
-  font-size: 15px;
-  padding: 10px;
 }
 
 .website {
