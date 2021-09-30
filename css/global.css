@@ -66,6 +66,23 @@ body {
   border-radius: 25px;
   color: #2e8db6;
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.hello_left,
+.hello_right {
+  width: 50%;
+}
+
+.hello_left p {
+  font-size: 20px;
+}
+
+.hello_right .fa {
+  margin: auto;
+  width: 50%;
 }
 
 .centered {
