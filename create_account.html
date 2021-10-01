@@ -36,11 +36,12 @@
     
                 <h3>Create Account</h3>
     
+                <input type = "text" placeholder="Enter first name" name = "f_name" required>
+                <input type = "text" placeholder="Enter last name" name = "l_name" required>
                 <input type = "text" placeholder="Enter email" name = "email" required>
-                <input type = "text" placeholder="Enter full name" name = "name" required>
-                <input type="text" placeholder="Enter Username" name="username" required>
-                <input type="password" placeholder="Enter Password" name="password" required>
-                <button type="submit">Sign Up</button>
+                <input type="password" placeholder="Enter password" name="password" required>
+                <label style="display:inline-block"><input type="radio" name="profession" checked>Student</label>
+                <label style="display:inline-block"><input type="radio" name="profession">Faculty</label>
                
                 <button type="button" class="cancelbtn"  onclick="document.location ='login.html'">Cancel</button>
                 </form>
