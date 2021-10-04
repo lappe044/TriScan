@@ -56,19 +56,30 @@ body {
 .header {
   height: 200px;
   border-bottom: darkgrey solid 1px;
+  flex-direction: row;
+  display: flex;
+  box-sizing: border-box;
 }
 
 .hello_bar {
   background: #eeeeee;
   padding: 20px;
-  margin: 40px;
   width: 30%;
+  height: 60%;
+  margin: 40px;
   border-radius: 25px;
   color: #2e8db6;
   text-align: center;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
+}
+
+.icons {
+  width: 70%;
+  height: 60%;
+  margin: 40px;
+  color: #2e8db6;
 }
 
 .hello_left,
