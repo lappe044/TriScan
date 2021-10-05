@@ -1,6 +1,6 @@
 body {
   background: #eeeeee;
-  overflow: auto;
+
   font-family: "Merriweather", serif;
 }
 
@@ -38,6 +38,7 @@ p {
 .report img {
   width: 100%;
   height: 100%;
+  padding-bottom: 20px;
 }
 
 .key {

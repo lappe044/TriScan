@@ -1,0 +1,13 @@
+.add_category {
+  background: #2e8db6;
+  float: right;
+  padding: 20px;
+  width: 30%;
+  height: 60%;
+  margin: 40px;
+  margin-left: 500px;
+  border-radius: 25px;
+  color: white;
+  text-align: center;
+  box-sizing: border-box;
+}
