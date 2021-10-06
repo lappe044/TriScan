@@ -30,6 +30,8 @@
             <a href="login.html">Logout</a>
         </div>
 
+
+
         <div class="right_content">
 
             <div class="header">
@@ -42,9 +44,31 @@
                     </div>
                 </div>
 
-                <div class = "add_category">
-                    <p>Add Category</p>
-                </div>
+                
+                <button class = "add_category" onclick="openForm()">
+                    <div class ="add_left">
+                        <p>Add Category</p>
+                    </div>
+                    <div class = "add_right">
+                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                    </div>
+                </button>
+
+                <div class="form-popup" id="myForm">
+                    <form action="/action_page.php" class="form-container">
+                      <h1>Login</h1>
+                  
+                      <label for="email"><b>Email</b></label>
+                      <input type="text" placeholder="Enter Email" name="email" required>
+                  
+                      <label for="psw"><b>Password</b></label>
+                      <input type="password" placeholder="Enter Password" name="psw" required>
+                  
+                      <button type="submit" class="btn">Login</button>
+                      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                    </form>
+                  </div>
+                
 
                
 
@@ -80,6 +104,16 @@
         </div>
 
     </div>
+
+    <script>
+        function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+    </script>
 </body>
 
 </html>
