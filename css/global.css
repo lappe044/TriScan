@@ -100,6 +100,7 @@ body {
 
 .centered {
   background: lightgrey;
+  overflow: auto;
   height: 100vh;
   width: 100%;
 }

@@ -3,11 +3,24 @@ body {
   font-family: "Merriweather", serif;
 }
 
-.title {
+.title,
+.icons_holder {
   width: 100%;
-  color: black;
+  color: rgba(0, 0, 0, 0.8);
   text-align: center;
 }
+
+.icons_holder {
+  margin-left: 250px;
+  width: 40%;
+  align-items: flex-end;
+  text-align: left;
+}
+
+.icons_holder .fa {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .title h1 {
   color: black;
 }
