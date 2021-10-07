@@ -100,10 +100,21 @@ h2 {
 .bottom > span {
   display: block;
   height: 100%;
-  background-color: #2e8db6;
 
   position: relative;
   overflow: hidden;
+}
+
+.plagiarism {
+  background-color: #84ba63;
+}
+
+.similarities {
+  background-color: #2e8db6;
+}
+
+.grammatical_errors {
+  background-color: #faf458;
 }
 
 .space {

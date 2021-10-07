@@ -37,25 +37,33 @@
   position: fixed;
   bottom: 0;
   right: 15px;
-  border: 3px solid #f1f1f1;
   z-index: 9;
 }
 
 /* Add styles to the form container */
 .form-container {
   max-width: 300px;
-  padding: 10px;
-  background-color: white;
+  box-sizing: border-box;
+  background-color: #f1f1f1;
+  color: #2e8db6;
+  padding: 2rem;
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  margin: auto;
+  margin-top: 150px;
+  font-family: "Times New Roman", Times, serif;
 }
 
 /* Full-width input fields */
 .form-container input[type="text"],
 .form-container input[type="password"] {
-  width: 100%;
+  width: 90%;
   padding: 15px;
   margin: 5px 0 22px 0;
   border: none;
-  background: #f1f1f1;
+  background: #ddd;
 }
 
 /* When the inputs get focus, do something */
@@ -67,7 +75,7 @@
 
 /* Set a style for the submit/login button */
 .form-container .btn {
-  background-color: #04aa6d;
+  background-color: #2e8db6;
   color: white;
   padding: 16px 20px;
   border: none;
