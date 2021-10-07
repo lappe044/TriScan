@@ -1,6 +1,5 @@
 body {
   background: #eeeeee;
-
   font-family: "Merriweather", serif;
 }
 
@@ -75,7 +74,7 @@ h2 {
 }
 
 .fa {
-  color: #2e8db6;
+  color: rgba(0, 0, 0, 0.8);
   width: 10%;
 }
 
@@ -106,15 +105,15 @@ h2 {
 }
 
 .plagiarism {
-  background-color: #84ba63;
-}
-
-.similarities {
   background-color: #2e8db6;
 }
 
+.similarities {
+  background-color: #ffd97d;
+}
+
 .grammatical_errors {
-  background-color: #faf458;
+  background-color: #b31000;
 }
 
 .space {

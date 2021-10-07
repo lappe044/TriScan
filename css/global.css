@@ -93,6 +93,7 @@ body {
 }
 
 .hello_right .fa {
+  padding-top: 10px;
   margin: auto;
   width: 50%;
 }
