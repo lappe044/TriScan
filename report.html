@@ -25,7 +25,6 @@
                 <img src="images/school.jpg">
             </a>
             <a class="active" href="faculty.html">Dash</a>
-            <a href="#news">Reports</a>
             <a href="#contact">Settings</a>
             <a href="login.html">Logout</a>
         </div>
@@ -48,13 +47,12 @@
 
         <div class="form-popup" id="myForm">
             <form action="/report.html" class="form-container">
-              <h1>Send Report</h1>
+              <h1>Send Report To: </h1>
+
           
-              <label for="email"><b>Student Name</b></label>
+              <label for="name"><b>Student Name</b></label>
               <input type="text" placeholder="Enter Name" name="name" required>
-          
-              
-          
+            
               <button type="submit" class="btn">Send</button>
               <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
             </form>
