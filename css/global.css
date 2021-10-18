@@ -114,7 +114,7 @@ body {
 
 /* sample class */
 
-.sample {
+.card {
   margin: 15px 0px 0px 10px;
   background: linear-gradient(white, transparent 90%),
     linear-gradient(0deg, white, transparent),
@@ -127,7 +127,7 @@ body {
   position: relative;
 }
 
-.sample p {
+.card p {
   background-color: #2e8db6;
   margin: 0;
   padding: 1.5rem;
@@ -138,30 +138,6 @@ body {
   box-sizing: border-box;
 }
 
-.sample a {
-  display: block;
-  color: white;
-  text-decoration: none;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-}
-
-.sample:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-/* end of sample class */
-
-.card {
-  margin: 15px 0px 0px 10px;
-  background: #2e8db6;
-  flex: 0 1 calc(25% - 1em);
-  height: 200px;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-}
-
 .card a {
   display: block;
   color: white;
@@ -170,6 +146,30 @@ body {
   width: 100%;
   text-align: center;
 }
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* end of sample class */
+
+/* .card {
+  margin: 15px 0px 0px 10px;
+  background: #2e8db6;
+  flex: 0 1 calc(25% - 1em);
+  height: 200px;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+} */
+
+/* .card a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+} */
 
 @media screen and (max-width: 700px) {
   .sidebar {
