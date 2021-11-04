@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
     <script src="js/toggle-nav.js"></script>
     
     <title>Login</title>
     <style>
         html {
              
-             background: url("images/school.jpg") no-repeat center center fixed; 
+             background: url("/static/images/school.jpg") no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
              -o-background-size: cover;
@@ -35,13 +35,13 @@
             <input type="text" placeholder="Enter email" name="email" id="email" required>
             <input type="password" placeholder="Enter password" name="password" id="password" required>
 
-            <button type="submit" onclick="document.location='faculty.html'">Login</button>
+            <button type="submit" onclick="document.location='/templates/faculty.html'">Login</button>
 
             
             <!----put into flexbox-->
             
-            <button type = "button" class="create" onclick="document.location ='create_account.html'">Create Account</button>
-            <button type = "button" class="pass" onclick="document.location='forgot_pass.html'">Forget password?</button>
+            <button type = "button" class="create" onclick="document.location ='/templates/create_account.html'">Create Account</button>
+            <button type = "button" class="pass" onclick="document.location='/templates/forgot_pass.html'">Forget password?</button>
     
             </form>
             
