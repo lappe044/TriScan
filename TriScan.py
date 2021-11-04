@@ -14,7 +14,7 @@ def create_account():
 def forgot_pass():
     return render_template('forgot_pass.html')
 
-@app.route('/student.html')
+@app.route('/student')
 def student():
     return render_template('student.html')
 
