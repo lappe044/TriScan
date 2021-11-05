@@ -17,17 +17,10 @@
 </head>
 
 <body>
+{% extends "layout.html" %}
 
     <div class="content">
-
-        <div class="sidebar">
-            <a class="picture" href="">
-                <img src="/static/images/school.jpg">
-            </a>
-            <a class="active" href="#home">Dash</a>
-            <a href="#contact">Settings</a>
-            <a href="/static/login.html">Logout</a>
-        </div>
+        {% block content %}
 
         <div class="right_content">
 
@@ -85,6 +78,8 @@
 
 
         </div>
+
+        {% endblock %}
 
     </div>
 </body>
