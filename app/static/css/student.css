@@ -1,0 +1,26 @@
+.header_right {
+  border: none;
+  float: right;
+  width: 20%;
+  height: 40%;
+  margin: 50px;
+  margin-left: 600px;
+  color: #2e8db6;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.icon_right_left,
+.icon_right_right {
+  width: 50%;
+  padding: 40px;
+  padding-top: 10px;
+}
+
+.icon_a {
+  color: #2e8db6;
+  decoration: none;
+}

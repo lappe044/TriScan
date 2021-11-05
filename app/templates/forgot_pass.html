@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script src="js/toggle-nav.js"></script>
+    
+    <title>Login</title>
+
+    <style>
+        html {
+             
+             background: url("/static/images/school.jpg") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+             -o-background-size: cover;
+            background-size: cover;
+        }          
+       
+    </style>
+</head>
+<body>
+
+  
+  
+
+        <div id = "background">
+
+            <div id = "container2">
+            
+                <form action="insert_customer.php" method="post">
+    
+                <h3>Forgot Your Password?</h3>
+    
+                <input type = "text" placeholder="Enter email" name = "email" required>
+                <input type = "text" placeholder="Enter old password" name = "old_pass" required>
+                <input type="text" placeholder="Enter new password" name="new pass" required>
+                <button type="submit">Change Password</button>
+               
+                <button type="button" class="cancelbtn"  onclick="document.location ='/templates/login.html'">Cancel</button>
+                </form>
+                
+                  
+              </div> 
+        </div>
+       
+</body>
+</html>
