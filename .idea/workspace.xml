@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f3a60de-1146-438c-8564-3c90c8dff8ea" name="Default Changelist" comment="" />
+    <list default="true" id="3f3a60de-1146-438c-8564-3c90c8dff8ea" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/table.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/table.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/categories.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/class.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/class.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/messages.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/student_roster.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/student_roster.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

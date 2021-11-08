@@ -18,17 +18,11 @@
 </head>
 
 <body>
+{% extends "layout.html" %}
 
     <div class="content">
 
-        <div class="sidebar">
-            <a class = "picture" href="">
-                <img src="/static/images/school.jpg">
-            </a>
-            <a class="active" href="#home">Dash</a>
-            <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
-        </div>
+        {% block content %}
 
         <div class="right_content">
 
@@ -51,6 +45,7 @@
   <p>Thank you! See you in class</p>
   <span class="time-right">11:02</span>
 </div>
+            {% endblock %}
 
 
 
