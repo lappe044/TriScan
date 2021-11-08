@@ -32,7 +32,7 @@
 
             <div id = "container2">
             
-                <form action="insert_customer.php" method="post">
+                <form action="{{url_for('sign_up')}}" method="post">
     
                 <h3>Create Account</h3>
     
@@ -40,10 +40,11 @@
                 <input type = "text" placeholder="Enter last name" name = "l_name" required>
                 <input type = "text" placeholder="Enter email" name = "email" required>
                 <input type="password" placeholder="Enter password" name="password" required>
-                <label style="display:inline-block"><input type="radio" name="profession" checked>Student</label>
-                <label style="display:inline-block"><input type="radio" name="profession">Faculty</label>
+                <label style="display:inline-block"><input type="radio" name="profession" value="student" checked>Student</label>
+                <label style="display:inline-block"><input type="radio" name="profession" value="faculty">Faculty</label>
                
-                <button type="button" class="cancelbtn"  onclick="document.location ='/templates/login.html'">Cancel</button>
+                <button type="submit" class="cancelbtn"  onsubmit="document.location.href='{{ url_for('login') }}'">Submit</button>
+                <button type="button" class="cancelbtn"  onclick="document.location.href='{{ url_for('login') }}'">Cancel</button>
                 </form>
                 
                   

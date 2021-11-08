@@ -28,20 +28,20 @@
 
         <div id = "container">
             
-            <form action="login.php" method="post">
+            <form action="{{ url_for('login')}}" method="post">
 
             <h3>TriScan</h3>
 
             <input type="text" placeholder="Enter email" name="email" id="email" required>
             <input type="password" placeholder="Enter password" name="password" id="password" required>
 
-            <button type="submit" onclick="document.location='/templates/faculty.html'">Login</button>
+            <button type="submit" onsubmit="document.location.href='{{ url_for('login') }}'">Login</button>
 
             
             <!----put into flexbox-->
             
-            <button type = "button" class="create" onclick="document.location ='/templates/create_account.html'">Create Account</button>
-            <button type = "button" class="pass" onclick="document.location='/templates/forgot_pass.html'">Forget password?</button>
+            <button type = "button" class="create" onclick="document.location.href='{{ url_for('sign_up') }}'">Create Account</button>
+            <button type = "button" class="pass" onclick="document.location.href='{{ url_for('forgot_password') }}'">Forget password?</button>
     
             </form>
             
