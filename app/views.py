@@ -14,7 +14,7 @@ def login():
     # if email is associate with student, render template student-index
     # if email is associate with faculty, render template faculty-index
 
-    return render_template("/student_roster.html")
+    return render_template("/forgot_pass.html")
 
 
 @app.route("/sign-up", methods=["GET", "POST"])
