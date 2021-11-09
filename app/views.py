@@ -1,34 +1,30 @@
-from flask import Flask, render_template, request, redirect
-
+from flask import render_template, request, redirect, make_response
 from app import app
+from app.database import *
 
 
 @app.route("/", methods=['GET', 'POST'])
 def login():
-
     if request.method == "POST":
 
         req = request.form
 
-        email = req["email"]
-        password = req["password"]
+        if 'email' in req.keys() and 'password' in req.keys():
 
-        flag = True
+            uid = compare_credentials(req['email'], req['password'])
+            if uid is not None:
 
-        # check email and password in database
-        if(flag):
-            redirect("/student")
-        else:
-            redirect("/faculty")
+                session = generate_session_token(uid)
 
-        print(email, password)
+                response = make_response(redirect('/dashboard'))
+                response.set_cookie('Authorization', session, max_age=60 * 60 * 24)
+                return response
 
+            else:
+                # FLASH USER WITH INCORRECT LOGIN DETAILS ERROR HERE.
+                return redirect('/')
 
-
-    # if email is associate with student, render template '/student'
-    # if email is associate with faculty, render template '/faculty'
-
-    return render_template("/login.html")
+    return render_template('login.html')
 
 
 @app.route("/sign-up", methods=["GET", "POST"])
@@ -37,15 +33,16 @@ def sign_up():
 
         req = request.form
 
-        first_name = req["f_name"]
-        last_name = req["l_name"]
-        email = req["email"]
-        password = req["password"]
-        profession = req["profession"]
+        if 'f_name' in req.keys() and 'l_name' in req.keys() and 'email' in req.keys() and 'password' in req.keys() and 'profession' in req.keys():
 
-        print(first_name,last_name,email,password, profession)
+            if email_exists(req['email']) is False:
 
-        redirect("/") # value is the route 
+                uid = create_user(req['f_name'], req['l_name'], req['email'], req['password'], req['profession'])
+                session = generate_session_token(uid)
+
+                response = make_response(redirect('/dashboard'))
+                response.set_cookie('Authorization', session, max_age=60 * 60 * 24)
+                return response
 
     return render_template("/create_account.html")
 
@@ -57,24 +54,28 @@ def forgot_password():
 
         req = request.form
 
-        email = req["email"]
-        new_password = req["new_pass"]
-
-        print(email,new_password)
-
-    # update the user's old password to new password
-
-        redirect('/')
+        if 'email' in req.keys() and 'new_pass' in req.keys():
+            if email_exists(req['email']):
+                update_password(req['email'], req['new_pass'])
+                return redirect('/')
     
     return render_template("/forgot_pass.html")
 
 
-@app.route("/student")
-def student_page():
+@app.route("/dashboard")
+def dashboard_page():
+    if 'Authorization' in request.cookies.keys():
+        uid = get_uid_from_session(request.cookies['Authorization'])
+        if uid is not None:
 
-    return render_template("/student.html")
+            role = get_role_from_uid(uid)
+            if role is not None:
 
-@app.route("/faculty")
-def faculty_page():
+                if role == 'Student':
+                    return render_template('student.html')
+                if role == 'Faculty':
+                    return render_template('faculty.html')
 
-    return render_template("/faculty.html")
+    response = make_response(redirect('/login'))
+    response.set_cookie('Authorization', '', max_age=0)
+    return response
