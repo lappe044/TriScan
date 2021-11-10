@@ -9,6 +9,7 @@ def login():
 
         req = request.form
 
+
         if 'email' in req.keys() and 'password' in req.keys():
 
             uid = compare_credentials(req['email'], req['password'])
@@ -66,16 +67,31 @@ def forgot_password():
 def dashboard_page():
     if 'Authorization' in request.cookies.keys():
         uid = get_uid_from_session(request.cookies['Authorization'])
+
         if uid is not None:
+
+            user = get_user_from_uid(uid)
 
             role = get_role_from_uid(uid)
             if role is not None:
 
                 if role == 'Student':
-                    return render_template('student.html')
+
+                    student_name = user["firstName"]
+                    print(student_name)
+                    return render_template('student.html', student_name=student_name)
+
                 if role == 'Faculty':
-                    return render_template('faculty.html')
+
+                    faculty_name = user["lastName"]
+                    print(faculty_name)
+                    return render_template('faculty.html', faculty_name=faculty_name)
 
     response = make_response(redirect('/login'))
     response.set_cookie('Authorization', '', max_age=0)
     return response
+
+@app.route("/logout")
+def logout():
+
+    return render_template("/login.html")

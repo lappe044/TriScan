@@ -27,7 +27,7 @@
             </a>
             <a class="active" href="#home">Dash</a>
             <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
+            <a href="{{url_for('logout')}}">Logout</a>
         </div>
 
         <div class="right_content">
@@ -35,7 +35,7 @@
             <div class="header">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p>Hello Alexis!</p>
+                        <p>Hello {{ student_name }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-graduation-cap fa-3x" aria-hidden="true"></i>
