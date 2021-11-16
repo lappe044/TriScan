@@ -27,7 +27,7 @@
             </a>
             <a class="active" href="/templates/faculty.html">Dash</a>
             <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
 
 
@@ -78,7 +78,7 @@
                 <section class="cards">
 
                     <article class="card">
-                        <a href="/templates/report.html">
+                        <a href="{{url_for('report')}}">
                             <p>Assignments</p>
                         </a>
                     </article><!-- /card-one -->

@@ -95,3 +95,25 @@ def dashboard_page():
 def logout():
 
     return render_template("/login.html")
+
+
+@app.route("/messages")
+def messages():
+
+    return render_template("/messages.html")
+
+
+@app.route("/categories")
+def categories():
+
+    return render_template("/categories.html")
+
+@app.route("/report")
+def report():
+
+    return render_template("/report.html")
+
+@app.route("/student-roster")
+def student_roster():
+
+    return render_template("/student_roster.html")

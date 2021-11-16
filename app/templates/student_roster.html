@@ -22,7 +22,7 @@
             </a>
             <a class="active" href="/templates/faculty.html">Dash</a>
             <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
+            <a href="{{ url_for('logout')}}">Logout</a>
         </div>
 
         <div class="right_content">
@@ -176,7 +176,7 @@
                 </tr>
                 <tr>
                     
-                    <td><a href="/templates/categories.html">Alexis Lappe</a></td>
+                    <td><a href="{{ url_for('categories')}}">Alexis Lappe</a></td>
                     <td>001-01337-Software Engineering II</td>
                     <td>Student</td>
                 </tr>
