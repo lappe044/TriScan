@@ -117,3 +117,8 @@ def report():
 def student_roster():
 
     return render_template("/student_roster.html")
+
+@app.route("/student-class")
+def student_class():
+
+    return render_template("/class.html")
