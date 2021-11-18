@@ -72,31 +72,15 @@
                       <th>Due Date</th>
                       <th>Upload</th>
                     </tr>
-                    <tr>
-                      <td>Midterm Report</td>
-                      <td>Assignment</td>
-                      <td>October 18th, 2021</td>
-                      <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Midterm Report</td>
-                        <td>Assignment</td>
-                        <td>October 18th, 2021</td>
-                        <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                      </tr>
-                      <tr>
-                        <td>Midterm Report</td>
-                        <td>Assignment</td>
-                        <td>October 18th, 2021</td>
-                        <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                      </tr>
-                      <tr>
-                        <td>Midterm Report</td>
-                        <td>Assignment</td>
-                        <td>October 18th, 2021</td>
-                        <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                      </tr>
-                   
+                    {% for assignment in assignments['upcoming'] %}
+                        <tr>
+                            <td>{{ assignment['assignmentName'] }}</td>
+                            <td>{{ assignment['category'] }}</td>
+                            <td>{{ assignment['dueAt'] }}</td>
+                            <td><i class="fa fa-upload" aria-hidden="true"></i></td>
+                        </tr>
+                    {% endfor %}
+
                   </table>
 
                   <h1>Previous Coursework</h1>
@@ -107,30 +91,14 @@
                         <th>Due Date</th>
                         <th>Download</th>
                       </tr>
-                      <tr>
-                        <td>Midterm Report</td>
-                        <td>Assignment</td>
-                        <td>October 18th, 2021</td>
-                        <td><i class="fa fa-download" aria-hidden="true"></i></td>
-                      </tr>
-                      <tr>
-                          <td>Midterm Report</td>
-                          <td>Assignment</td>
-                          <td>October 18th, 2021</td>
-                          <td><i class="fa fa-download" aria-hidden="true"></i></i></td>
-                        </tr>
+                      {% for assignment in assignments['previous'] %}
                         <tr>
-                          <td>Midterm Report</td>
-                          <td>Assignment</td>
-                          <td>October 18th, 2021</td>
-                          <td><i class="fa fa-download" aria-hidden="true"></i></i></td>
+                            <td>{{ assignment['assignmentName'] }}</td>
+                            <td>{{ assignment['category'] }}</td>
+                            <td>{{ assignment['dueAt'] }}</td>
+                            <td><i class="fa fa-upload" aria-hidden="true"></i></td>
                         </tr>
-                        <tr>
-                          <td>Midterm Report</td>
-                          <td>Assignment</td>
-                          <td>October 18th, 2021</td>
-                          <td><i class="fa fa-download" aria-hidden="true"></i></td>
-                        </tr>
+                    {% endfor %}
                      
                     </table>
             
