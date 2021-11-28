@@ -9,7 +9,12 @@ table {
   margin: auto;
   margin-top: 50px;
 }
-
+#roster {
+  width: 30%;
+  margin: auto;
+  margin-right: 100px;
+  margin-top: 50px;
+}
 td,
 th {
   border: 1px solid #dddddd;

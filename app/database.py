@@ -83,3 +83,59 @@ def create_user(firstName, lastName, email, password, role):
 
 def update_password(email, password):
     mongo.db.credentials.update_one({'email': email.lower()}, {'$set': {'passwordHash': get_hash(password)}})
+
+
+def get_courses(uid):
+    return mongo.db.courses.find({"members": {"$all": [uid]}}, {'_id': 0, 'members': 0})
+
+
+def get_assignments(uid, courseid):
+    assignments = mongo.db.assignments.find({"courseId": courseid})
+
+    assignments_returnable = {}
+
+    upcoming_coursework = []
+    missed_coursework = []
+    previous_coursework = []
+
+    for assignment in assignments:
+
+        dueAt_int = assignment['dueAt']
+        assignment['dueAt'] = time.strftime("%D %H:%M", time.localtime(dueAt_int))
+
+        submissions = list(mongo.db.submissions.find({"uid": uid, "assignmentId": assignment['assignmentId']}))
+        if len(submissions) > 0:
+            assignment['submissions'] = submissions
+            previous_coursework.append(assignment)
+        else:
+            if dueAt_int < time.time():
+                missed_coursework.append(assignment)
+            else:
+                upcoming_coursework.append(assignment)
+
+    previous_coursework += missed_coursework
+    assignments_returnable['upcoming'] = upcoming_coursework
+    # assignments_returnable['missed'] = missed_coursework
+    assignments_returnable['previous'] = previous_coursework
+
+    return assignments_returnable
+
+
+def upload_file(file_name, file_contents):
+    fileId = str(uuid.uuid4())
+    mongo.save_file(fileId, file_contents)
+
+    file = {
+        "fileId": fileId,
+        "fileName": file_name
+    }
+
+    mongo.db.files.insert_one(file)
+
+    return file
+
+
+def get_students(courseId):
+    course = mongo.db.courses.find_one({"courseId": courseId})
+    student_data = list(mongo.db.users.find({"uid": {"$in": course['members']}}, {'_id':0}))
+    return student_data

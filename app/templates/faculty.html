@@ -24,8 +24,7 @@
             <a class="picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="#home">Dash</a>
-            <a href="#contact">Settings</a>
+            <a class="active" href="{{ url_for('dashboard_page') }}">Dash</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </div>
 
@@ -44,45 +43,19 @@
             </div>
 
             <div class="centered">
-
                 <section class="cards">
 
-                    <!-- <div class="sample">
-                        <article>
-                            <a href="student_roster.html">
-                                <p>CS 485 Sample</p>
+                    {% for course in courses %}
+                        <article class="card">
+                            <a href="{{ url_for('list_courses', courseId=course['courseId']) }}">
+                                <p>{{ course['courseName'] }}</p>
                             </a>
                         </article>
-                    </div> /sample -->
-
-                    <article class="card">
-                        <a href="{{ url_for('student_roster')}}">
-                            <p></p>
-                            <p>WRIT 114-012</p>
-                        </a>
-                    </article><!-- /card-one -->
-
-                    <article class="card">
-                        <a href="/templates/login.html">
-                            <p>ENGL 313-801</p>
-                        </a>
-                    </article><!-- /card-two -->
-
-                    <article class="card">
-                        <a href="/templates/login.html">
-                            <p>LANG 130-001</p>
-                        </a>
-                    </article><!-- /card-three -->
-
-                    <article class="card">
-                        <a href="/templates/login.html">
-                            <p>SOC 101-004</p>
-                        </a>
-                    </article><!-- /card-four -->
+                    {% endfor %}
 
                 </section>
+              
             </div>
-
 
         </div>
 
