@@ -24,9 +24,8 @@
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="faculty.html">Dash</a>
-            <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
+            <a class="active" href="{{ url_for('dashboard_page')}}">Dash</a>
+            <a href="{{ url_for('logout')}}">Logout</a>
         </div>
 
         
@@ -47,14 +46,12 @@
 
         <div class="form-popup" id="myForm">
             <form action="/templates/report.html" class="form-container">
-              <h1>Send Report To: </h1>
-
-          
-              <label for="name"><b>Student Name</b></label>
+              <h3>Send Report To: </h3>
               <input type="text" placeholder="Enter Name" name="name" required>
-            
-              <button type="submit" class="btn">Send</button>
-              <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+              <div id="buttons">
+                  <button type="submit" class="btn">Send</button>
+                  <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                </div>
             </form>
           </div>
 

@@ -40,12 +40,13 @@
                 <div id="category-header">
                     <h3> Categories </h3>
                     <button class = "add_category" onclick="openForm()">
+                    <h5>Add</h5>
                     <div class = "add_right">
-                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        <i class="fa fa-plus fa-1x" aria-hidden="true"></i>
                     </div>
                     </button>
                     <div class="form-popup" id="myForm">
-                        <form  class="form-container">
+                        <form  class="form-container" action="{{ url_for('login')}}" method="post">
                             <h3>Add a Category</h3>
                             <input type="text" placeholder="Enter Name" name="name" required>    
                             <div id="buttons"> 
@@ -71,20 +72,23 @@
             <div id="roster-content">
                 <div id="roster-header">
                     <h3>Roster</h3>
-                    <button class = "add_category" onclick="openForm()">
+                    <button class = "add_category" onclick="openForm1()">
+                        <h5>Add</h5>
                         <div class = "add_right">
-                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                            <i class="fa fa-plus fa-1x" aria-hidden="true"></i>
                         </div>
                         </button>
-                        <div class="form-popup" id="addPerson">
-                            <form  class="form-container">
-                                <h3>Add a person</h3>
+                        <div class="form-popup2" id="add-person">
+                            <form  class="form-container" action="{{ url_for('login')}}" method="post">
+                                <h3>Add a Person</h3>
                                 <input type="text" placeholder="Enter Name" name="name" required>   
-                                <label style="display:inline-block"><input type="radio" name="profession" value="student" checked>Student</label>
-                                <label style="display:inline-block"><input type="radio" name="profession" value="faculty">Faculty</label> 
+                                <div id="radio">
+                                    <label style="display:flex; width: 40%;"><input type="radio" name="profession" value="student" checked>Student</label>
+                                    <label><input type="radio" name="profession" value="faculty">Faculty</label> 
+                                </div>
                                 <div id="buttons"> 
                                     <button type="submit" class="btn submit">Confirm</button>
-                                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                                    <button type="button" class="btn cancel" onclick="closeForm1()">Cancel</button>
                                 </div>              
                                 
                             </form>
@@ -100,7 +104,7 @@
                         <tr>
                             <td>{{ student['fullName'] }}</td>
                             <td>{{ student['role'] }}</td>
-                            <td><i class="fa fa-plus fa-2x" aria-hidden="true"></i></td>
+                            <td onclick="deleteUser(student['uid'])"><i class="fa fa-minus"></i></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -109,7 +113,9 @@
     </div>
     <script>
         function openForm() { document.getElementById("myForm").style.display = "block"; }
+        function openForm1() { document.getElementById("add-person").style.display = "block"; }
         function closeForm() { document.getElementById("myForm").style.display = "none"; }
+        function closeForm1() { document.getElementById("add-person").style.display = "none"; }
     </script>
 </body>
 </html>

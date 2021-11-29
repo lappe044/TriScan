@@ -128,13 +128,14 @@ def list_courses(courseId):
     role = get_role_from_uid(uid)
     if uid is not None:
         if role == 'Student':
+            course = get_course_name(courseId)
             assignments = get_assignments(uid, courseId)
-            return render_template("/class.html", assignments=assignments)
+            return render_template("/class.html", assignments=assignments, course=course)
         if role == 'Faculty':
             students = get_students(courseId)
             course = get_course_name(courseId)
             categories = get_categories(courseId)
-            return render_template("/faculty_course_view.html", course=course, students=students, categories = categories)
+            return render_template("/faculty_course_view.html", course=course, students=students, categories=categories, courseId=courseId)
 
 
 @app.route('/upload', methods=["POST"])

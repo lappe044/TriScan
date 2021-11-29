@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <title>Dashboard</title>
+    <title>Student View</title>
 </head>
 <body>
     <div class="content">
@@ -28,21 +28,21 @@
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p>Software Engineering II</p>
+                        <p>{{ course }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
                     </div>
                 </div>
-                <a  href="/templates/report.html">
-                <button class = "add_category" onclick="openForm()">
-                    <div class ="add_left">
-                        <p>View Reports</p>
-                    </div>
-                    <div class = "add_right">
-                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                    </div>
-                </button>
+                <a  href="{{ url_for('report')}}">
+                    <button class = "add_category" onclick="openForm()">
+                        <div class ="add_left">
+                            <p>View Reports</p>
+                        </div>
+                        <div class = "add_right">
+                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </button>
                 </a>
             </div>
             <h1>Upcoming Coursework</h1>

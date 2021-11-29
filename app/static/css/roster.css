@@ -17,7 +17,10 @@
     margin: auto;
     display: inline-flex;
 }
-
+.add-category {
+    display: flex;
+    width: 4rem;
+}
 .add {
     background: #2e8db6;
     border: none;
@@ -31,6 +34,7 @@
     margin-top: 1rem;
     margin-left: 0.5rem;
     margin-right: 0;
+    display: flex;
   }
 
 .header {
@@ -49,4 +53,27 @@
 .card {
     min-width: 20rem;
     min-height: 200px;
+}
+.fa-minus {
+    width: 2rem;
+    color: darkred;
+}
+.fa-book-open {
+    width: 5rem;
+    color: black;
+    height: 5rem;
+}
+#radio {
+    display: flex;
+    margin: auto;
+    padding-bottom: 1rem;
+    justify-content: space-evenly;
+    width: 100%;
+
+}
+.form-popup2 {
+    display: none;
+    position: fixed;
+    right: 3%;
+    z-index: 1;
 }
