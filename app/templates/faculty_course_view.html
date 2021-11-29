@@ -28,21 +28,21 @@
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p>Course Name</p>
+                        <p>{{ course }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
                     </div>
                 </div>
-        </div>
+            </div>
         <div id="container">
             <div id="category-content">
                 <div id="category-header">
                     <h3> Categories </h3>
                     <button class = "add_category" onclick="openForm()">
                     <div class = "add_right">
-                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                        </div>
+                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                    </div>
                     </button>
                     <div class="form-popup" id="myForm">
                         <form  class="form-container">
@@ -56,30 +56,51 @@
                         </form>
                     </div>
                 </div>
-                <section class="cards">
-
-                    {% for category in categories  %}
-                        <article class="card">
-                            <a href="{{ url_for('list_courses', courseId=course['courseId']) }}">
-                                <p>{{ course['courseName'] }}</p>
-                            </a>
-                        </article>
-                    {% endfor %}
-
-                </section>
-              
+                <div id="centered">
+                    <section class="cards">
+                        {% for category in categories  %}
+                            <article class="card">
+                                <a href="{{ url_for('dashboard_page', courseId=course['courseId']) }}">
+                                    <p>{{ category }}</p>
+                                </a>
+                            </article>
+                        {% endfor %}
+                    </section>
+                </div>
             </div>
             <div id="roster-content">
-                <h3> Student Roster </h3>
+                <div id="roster-header">
+                    <h3>Roster</h3>
+                    <button class = "add_category" onclick="openForm()">
+                        <div class = "add_right">
+                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        </div>
+                        </button>
+                        <div class="form-popup" id="addPerson">
+                            <form  class="form-container">
+                                <h3>Add a person</h3>
+                                <input type="text" placeholder="Enter Name" name="name" required>   
+                                <label style="display:inline-block"><input type="radio" name="profession" value="student" checked>Student</label>
+                                <label style="display:inline-block"><input type="radio" name="profession" value="faculty">Faculty</label> 
+                                <div id="buttons"> 
+                                    <button type="submit" class="btn submit">Confirm</button>
+                                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                                </div>              
+                                
+                            </form>
+                        </div>
+                </div>
                 <table id=roster>
                     <tr>
                     <th>Name</th>
                     <th>Role</th>
+                    <th>Remove</th>
                     </tr>
                     {% for student in students %}
                         <tr>
                             <td>{{ student['fullName'] }}</td>
                             <td>{{ student['role'] }}</td>
+                            <td><i class="fa fa-plus fa-2x" aria-hidden="true"></i></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -91,5 +112,4 @@
         function closeForm() { document.getElementById("myForm").style.display = "none"; }
     </script>
 </body>
-
 </html>

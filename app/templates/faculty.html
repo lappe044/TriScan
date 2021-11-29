@@ -48,7 +48,7 @@
                     {% for course in courses %}
                         <article class="card">
                             <a href="{{ url_for('list_courses', courseId=course['courseId']) }}">
-                                <p>{{ course['courseName'] }}</p>
+                                <p>{{ course['courseSection'] }}</p>
                             </a>
                         </article>
                     {% endfor %}

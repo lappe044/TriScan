@@ -132,7 +132,9 @@ def list_courses(courseId):
             return render_template("/class.html", assignments=assignments)
         if role == 'Faculty':
             students = get_students(courseId)
-            return render_template("/faculty_course_view.html", courseId=courseId, students=students)
+            course = get_course_name(courseId)
+            categories = get_categories(courseId)
+            return render_template("/faculty_course_view.html", course=course, students=students, categories = categories)
 
 
 @app.route('/upload', methods=["POST"])
@@ -141,3 +143,5 @@ def upload():
         print(file)
         upload_file(file, request.files[file])
     return None
+
+

@@ -140,18 +140,26 @@ def get_students(courseId):
     student_data = list(mongo.db.users.find({"uid": {"$in": course['members']}}, {'_id':0}))
     return student_data
 
+def get_course_name(courseId):
+    course = mongo.db.courses.find_one({"courseId": courseId})
+    name = course['courseSection']
+    return name
+
+def get_categories(courseId):
+    course = mongo.db.categories.find_one({"courseId": courseId})
+    category_data = course['courseCategories']
+    return category_data
+
 """
-can be config'd to insert data to mongo
-def make_fake_course(courseSection,courseName,courseDescription,uids):
+#can be config'd to insert data to mongo
+def make_fake_category(categoryType):
     courseId = str(uuid.uuid4())
 
-    courses_object = {
+    cat_object = {
         'courseId': courseId,
-        'courseSection': courseSection,
-        'courseName': courseName,
-        'courseDescription': courseDescription,
-        'members': uids,
+        'courseCategories': categoryType,
     }
-    mongo.db['courses'].insert_one(courses_object)
+    mongo.db['categories'].insert_one(cat_object)
     return courseId
-"""
+    """
+

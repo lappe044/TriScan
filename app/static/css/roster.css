@@ -6,17 +6,47 @@
     width: 60%;
     text-align: center;
     background-color: lightgrey;
-    display: flex;
     height: 100vh;
 }
 #category-header {
     margin-left: auto;
     margin-right: auto;
-    display: flex;
+    display: inline-flex;
 }
+#roster-header  {
+    margin: auto;
+    display: inline-flex;
+}
+
+.add {
+    background: #2e8db6;
+    border: none;
+    padding: 5px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
+
 .header {
     width: 100%;
 }
 #container {
     display: flex;
+}
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-left: auto;
+    flex: unset
+}
+.card {
+    min-width: 20rem;
+    min-height: 200px;
 }
