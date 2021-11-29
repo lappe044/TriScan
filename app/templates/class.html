@@ -13,15 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    
-
     <title>Dashboard</title>
 </head>
-
 <body>
-
     <div class="content">
-
         <div class="sidebar">
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
@@ -29,11 +24,7 @@
             <a class="active" href="{{ url_for('dashboard_page')}}">Dash</a>
             <a href="{{ url_for('logout')}}">Logout</a>
         </div>
-
-
-
         <div class="right_content">
-
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
@@ -43,8 +34,6 @@
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
                     </div>
                 </div>
-
-                
                 <a  href="/templates/report.html">
                 <button class = "add_category" onclick="openForm()">
                     <div class ="add_left">
@@ -55,68 +44,46 @@
                     </div>
                 </button>
                 </a>
-
-                
-                
-
-               
-
             </div>
-
             <h1>Upcoming Coursework</h1>
-                <table>
+            <table>
+                <tr>
+                    <th>Coursework Name</th>
+                    <th>Category</th>
+                    <th>Due Date</th>
+                    <th>Upload</th>
+                </tr>
+                {% for assignment in assignments['upcoming'] %}
                     <tr>
-                      <th>Coursework Name</th>
-                      <th>Category</th>
-                      <th>Due Date</th>
-                      <th>Upload</th>
+                        <td>{{ assignment['assignmentName'] }}</td>
+                        <td>{{ assignment['category'] }}</td>
+                        <td>{{ assignment['dueAt'] }}</td>
+                        <td><i class="fa fa-upload" aria-hidden="true"></i></td>
                     </tr>
-                    {% for assignment in assignments['upcoming'] %}
-                        <tr>
-                            <td>{{ assignment['assignmentName'] }}</td>
-                            <td>{{ assignment['category'] }}</td>
-                            <td>{{ assignment['dueAt'] }}</td>
-                            <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                        </tr>
-                    {% endfor %}
-
-                  </table>
-
-                  <h1>Previous Coursework</h1>
-                  <table>
-                      <tr>
-                        <th>Coursework Name</th>
-                        <th>Category</th>
-                        <th>Due Date</th>
-                        <th>Download</th>
-                      </tr>
-                      {% for assignment in assignments['previous'] %}
-                        <tr>
-                            <td>{{ assignment['assignmentName'] }}</td>
-                            <td>{{ assignment['category'] }}</td>
-                            <td>{{ assignment['dueAt'] }}</td>
-                            <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                        </tr>
-                    {% endfor %}
-                     
-                    </table>
-            
-         
-
-
+                {% endfor %}
+            </table>
+            <h1>Previous Coursework</h1>
+            <table>
+                <tr>
+                <th>Coursework Name</th>
+                <th>Category</th>
+                <th>Due Date</th>
+                <th>Download</th>
+                </tr>
+                {% for assignment in assignments['previous'] %}
+                <tr>
+                    <td>{{ assignment['assignmentName'] }}</td>
+                    <td>{{ assignment['category'] }}</td>
+                    <td>{{ assignment['dueAt'] }}</td>
+                    <td><i class="fa fa-upload" aria-hidden="true"></i></td>
+                </tr>
+            {% endfor %}
+            </table>
         </div>
-
     </div>
-
     <script>
-        function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
+        function openForm() { document.getElementById("myForm").style.display = "block"; }
+        function closeForm() { document.getElementById("myForm").style.display = "none"; }
     </script>
 </body>
-
 </html>

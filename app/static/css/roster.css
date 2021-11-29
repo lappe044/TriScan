@@ -1,0 +1,22 @@
+#roster-content {
+    width: 40%;
+    text-align: center;
+}
+#category-content {
+    width: 60%;
+    text-align: center;
+    background-color: lightgrey;
+    display: flex;
+    height: 100vh;
+}
+#category-header {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+.header {
+    width: 100%;
+}
+#container {
+    display: flex;
+}

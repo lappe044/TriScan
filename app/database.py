@@ -139,3 +139,19 @@ def get_students(courseId):
     course = mongo.db.courses.find_one({"courseId": courseId})
     student_data = list(mongo.db.users.find({"uid": {"$in": course['members']}}, {'_id':0}))
     return student_data
+
+"""
+can be config'd to insert data to mongo
+def make_fake_course(courseSection,courseName,courseDescription,uids):
+    courseId = str(uuid.uuid4())
+
+    courses_object = {
+        'courseId': courseId,
+        'courseSection': courseSection,
+        'courseName': courseName,
+        'courseDescription': courseDescription,
+        'members': uids,
+    }
+    mongo.db['courses'].insert_one(courses_object)
+    return courseId
+"""

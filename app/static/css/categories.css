@@ -1,68 +1,47 @@
 .add_category {
   background: #2e8db6;
   border: none;
-  float: right;
-  padding: 10px;
-  width: 30%;
-  height: 40%;
-  margin: 50px;
-  margin-left: 500px;
-  border-radius: 25px;
+  padding: 5px;
+  border-radius: 30px;
   color: white;
-  text-align: center;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
   cursor: pointer;
-}
-
-.add_left,
-.add_right {
-  width: 50%;
-}
-
-.add_left p {
-  padding-top: 10px;
-  font-size: 22px;
+  position: relative;
+  align-items: center;
   margin: auto;
-}
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0;
 
-.add_right .fa {
-  padding-top: 10px;
-  width: 50%;
 }
 
 /* The popup form - hidden by default */
 .form-popup {
   display: none;
   position: fixed;
-  bottom: 0;
-  right: 15px;
-  z-index: 9;
+  right: 45%;
 }
 
 /* Add styles to the form container */
 .form-container {
-  max-width: 300px;
   box-sizing: border-box;
   background-color: #f1f1f1;
   color: #2e8db6;
-  padding: 2rem;
-  width: 24rem;
+  padding: 0.5rem;
+  width: 13rem;
   display: flex;
   flex-direction: column;
   border-radius: 25px;
-  margin: auto;
-  margin-top: 150px;
+  margin-top: 1.5rem;
   font-family: "Times New Roman", Times, serif;
 }
 
 /* Full-width input fields */
 .form-container input[type="text"],
 .form-container input[type="password"] {
-  width: 90%;
+  width: 85%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 5px 0 20px 0;
+  text-align: center;
   border: none;
   background: #ddd;
 }
@@ -78,18 +57,28 @@
 .form-container .btn {
   background-color: #2e8db6;
   color: white;
-  padding: 16px 20px;
   border: none;
   cursor: pointer;
+  padding: 0.5rem 0; 
+  margin-bottom: .75rem;
   width: 100%;
-  margin-bottom: 10px;
   opacity: 0.8;
 }
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {
   background-color: red;
+  margin-left: 5px;
 }
+
+.form-container .cancel, .form-container .submit { 
+  width: 50%;
+}
+
+#buttons {
+  display: flex;
+}
+
 
 /* Add some hover effects to buttons */
 .form-container .btn:hover,
