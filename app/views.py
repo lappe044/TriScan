@@ -159,13 +159,13 @@ def allowed_file(filename):
         return False
 
     
-@app.route("/course/<courseId>", methods=["POST", "GET"])
+@app.route("/course/<courseId>/add-person", methods=["POST", "GET"])
 def add_person(courseId):
     if request.method == "POST":
 
         req = request.form
-
-        if 'name' in req.keys() and 'role' in req.keys():
+        print(req)
+        if 'name' in req.keys() and 'profession' in req.keys():
 
             uid = get_uid_from_name(req['name'])
             if uid is not None:
@@ -175,22 +175,23 @@ def add_person(courseId):
     return redirect('/course/'+courseId)
     #return render_template('/faculty_course_view.html')
 
-@app.route("/course/<courseId>", methods=["POST", "GET"])
+@app.route("/course/<courseId>/add-category", methods=["POST", "GET"])
 def add_category(courseId):
     print("category is here")
     if request.method == "POST":
 
         req = request.form
-        
+       
         if 'category' in req.keys():
-        
+
             if courseId is not None:
+            
                 update_categories(courseId, req['category'])
     return redirect('/course/'+courseId)
     #return render_template('/faculty_course_view.html')
     #return render_template('/faculty_course_view.html', course=request.args.get('course'), students=request.args.get('students'), categories=request.args.get('categories'),courseId = request.args.get('courseId'))
 
-@app.route("/course/<courseId>", methods=["POST", "GET"])
+@app.route("/course/<courseId>/delete-person/<uid>", methods=["POST", "GET"])
 def delete_from_roster(courseId, uid):
     delete_user_from_roster(courseId, uid)
     return redirect('/course/'+courseId)

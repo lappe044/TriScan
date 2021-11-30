@@ -48,7 +48,7 @@
                     <div class="form-popup" id="myForm">
                         <form  class="form-container" action="{{ url_for('add_category', courseId=courseId) }}" method="POST">
                             <h3>Add a Category</h3>
-                            <input type="text" placeholder="Enter Name" name="name" id="category" required>    
+                            <input type="text" placeholder="Enter Name" name="category" id="category" required>    
                             <div id="buttons"> 
                                 <button type="submit" class="btn submit">Confirm</button>
                                 <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
@@ -104,7 +104,7 @@
                         <tr>
                             <td>{{ student['fullName'] }}</td>
                             <td>{{ student['role'] }}</td>
-                            <td><a href="{{url_for('delete_from_roster', courseId=course['courseId'], uid=student['uid'])}}"><i class="fa fa-minus"></i></a></td>
+                            <td><a href="{{url_for('delete_from_roster', courseId=courseId, uid=student['uid'])}}"><i class="fa fa-minus"></i></a></td>
                         </tr>
                     {% endfor %}
                 </table>

@@ -156,16 +156,16 @@ def get_categories(courseId):
     return category_data
 
 def update_categories(courseId, categoryType):
-    course = mongo.db.categories.find_one({"courseId": courseId})
-    mongo.db.categories.update_one({'courseId': course}, {'$push': {'courseCategories': 'DIE'}})
+    print(categoryType)
+    mongo.db.categories.update_one({'courseId': courseId}, {'$push': {'courseCategories': categoryType}})
 
 def add_to_roster(courseId, uid):
-    course = mongo.db.courses.find_one({'courseId': courseId})
-    mongo.db.courses.update_one({'courseId': course}, {'$push': {'members': uid}})
+
+    mongo.db.courses.update_one({'courseId': courseId}, {'$push': {'members': uid}})
 
 def delete_user_from_roster(courseId, uid):
-    course = mongo.db.categories.find_one({'courseId': courseId})
-    mongo.db.courses.update_one({'courseId': course}, {'$pull': {'members': uid}})
+  
+    mongo.db.courses.update_one({'courseId': courseId}, {'$pull': {'members': uid}})
 
 """
 #can be config'd to insert data to mongo
