@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, make_response
 from app import app
 from app.database import *
+from werkzeug.utils import secure_filename
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -99,7 +100,7 @@ def logout():
 
 @app.route("/messages")
 def messages():
-
+    
     return render_template("/messages.html")
 
 
@@ -120,5 +121,53 @@ def student_roster():
 
 @app.route("/student-class")
 def student_class():
+
+    return render_template("/class.html")
+
+
+app.config["ALLOWED_FILE_EXTENSIONS"] = ["PDF", "DOC", "DOCX"]
+
+# Function that checks for file extensions
+# return True if file extensions is allowed
+#return False if no file extensions were given or file extensions not allowed
+def allowed_file(filename):
+
+    if not "." in filename:
+        return False
+    
+    # take the first element from the right and store in the extension var
+    ext = filename.split(".", 1)[1] 
+
+    # compare ext with allowed_file_extensions
+    if ext.upper() in app.config["ALLOWED_FILE_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
+
+@app.route("/upload-file", methods=["GET", "POST"])
+def upload_file():
+
+    if request.method == "POST":
+
+        if request.files:
+
+            # Get the file object
+            file = request.files["file"]
+
+            if file.filename == "":
+                print("File must have a filename")
+
+                return redirect(request.url)
+
+            if not allowed_file(file.filename):
+                print("The file extensions is not allowed")
+
+                return redirect(request.url)
+            else:
+                # extra step to secure the file 
+                filename = secure_filename(file.filename)
+
+                #TODO (kevin): save filename in database
 
     return render_template("/class.html")
