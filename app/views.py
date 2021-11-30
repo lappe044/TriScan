@@ -10,7 +10,6 @@ def login():
 
         req = request.form
 
-
         if 'email' in req.keys() and 'password' in req.keys():
 
             uid = compare_credentials(req['email'], req['password'])
@@ -60,7 +59,7 @@ def forgot_password():
             if email_exists(req['email']):
                 update_password(req['email'], req['new_pass'])
                 return redirect('/')
-    
+
     return render_template("/forgot_pass.html")
 
 
@@ -76,17 +75,19 @@ def dashboard_page():
             role = get_role_from_uid(uid)
             if role is not None:
 
+                courses = get_courses(uid)
+
                 if role == 'Student':
 
                     student_name = user["firstName"]
                     print(student_name)
-                    return render_template('student.html', student_name=student_name)
+                    return render_template('student.html', student_name=student_name, courses=courses)
 
                 if role == 'Faculty':
 
                     faculty_name = user["lastName"]
                     print(faculty_name)
-                    return render_template('faculty.html', faculty_name=faculty_name)
+                    return render_template('faculty.html', faculty_name=faculty_name, courses=courses)
 
     response = make_response(redirect('/login'))
     response.set_cookie('Authorization', '', max_age=0)
@@ -109,18 +110,26 @@ def categories():
 
     return render_template("/categories.html")
 
+
 @app.route("/report")
 def report():
 
     return render_template("/report.html")
 
-@app.route("/student-roster")
-def student_roster():
 
-    return render_template("/student_roster.html")
+@app.route("/course/<courseId>/students")
+def student_roster(courseId):
+    students = get_students(courseId)
+    return render_template("/student_roster.html", courseId=courseId, students=students)
 
-@app.route("/student-class")
-def student_class():
+
+@app.route("/course/<courseId>")
+def student_class(courseId):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    if uid is not None:
+        assignments = get_assignments(uid, courseId)
+        return render_template("/class.html", assignments=assignments)
+
 
     return render_template("/class.html")
 
@@ -171,3 +180,11 @@ def upload_file():
                 #TODO (kevin): save filename in database
 
     return render_template("/class.html")
+
+   
+@app.route('/upload', methods=["POST"])
+def upload():
+    for file in request.files:
+        print(file)
+        upload_file(file, request.files[file])
+    return None
