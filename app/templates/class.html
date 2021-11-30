@@ -65,25 +65,82 @@
             <h1>Previous Coursework</h1>
             <table>
                 <tr>
-                <th>Coursework Name</th>
-                <th>Category</th>
-                <th>Due Date</th>
-                <th>Download</th>
+                  <th>Coursework Name</th>
+                  <th>Category</th>
+                  <th>Due Date</th>
+                  <th>Download</th>
                 </tr>
-                {% for assignment in assignments['previous'] %}
-                <tr>
-                    <td>{{ assignment['assignmentName'] }}</td>
-                    <td>{{ assignment['category'] }}</td>
-                    <td>{{ assignment['dueAt'] }}</td>
-                    <td><i class="fa fa-upload" aria-hidden="true"></i></td>
-                </tr>
-            {% endfor %}
-            </table>
+                {% for previous_assignment in assignments['previous'] %}
+                  <tr>
+                      <td>{{ previous_assignment['assignmentName'] }}</td>
+                      <td>{{ previous_assignment['category'] }}</td>
+                      <td>{{ previous_assignment['dueAt'] }}</td>
+                      <td><i class="fa fa-upload" aria-hidden="true" id="{{ previous_assignment['assignmentId'] }}"></i></td>
+                  </tr>
+              {% endfor %}
+               
+              </table>
         </div>
     </div>
+    <form action="/upload-file/{{ courseId }}" method="POST" enctype="multipart/form-data">
+        <div class="modal hidden">
+          <h1>Upload File</h1>
+          <div>
+            <div>
+              <input class="choose-btn" name="file" type="file" />
+                <input type="hidden" name="assignmentId" id="assignmentIdForUpload" />
+            </div>
+            <button class="cancel-btn close-modal">Cancel</button>
+            <button type="submit" class="submit-btn">Upload</button>
+        </div>
+       </div>
+      </form>
     <script>
-        function openForm() { document.getElementById("myForm").style.display = "block"; }
-        function closeForm() { document.getElementById("myForm").style.display = "none"; }
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
+
+        const modal = document.querySelector('.modal');
+        const overlay = document.querySelector('.overlay');
+        const btnCloseModal = document.querySelector('.close-modal');
+        const btnsOpenModal = document.querySelectorAll('.show-modal');
+
+        const openModal = function (event) {
+          console.log(event.target);
+          console.log(event.target.nodeName);
+          element = event.target;
+          if(event.target.nodeName != "BUTTON"){
+            element = event.target.parentElement;
+          }
+          document.getElementById("assignmentIdForUpload").value =element.id;
+          console.log(element.id);
+          modal.classList.remove('hidden');
+          overlay.classList.remove('hidden');
+        };
+
+        const closeModal = function () {
+          modal.classList.add('hidden');
+          overlay.classList.add('hidden');
+        };
+
+        for (let i = 0; i < btnsOpenModal.length; i++)
+          btnsOpenModal[i].addEventListener('click', openModal);
+
+        btnCloseModal.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+          // console.log(e.key);
+
+          if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+          }
+        });
+
     </script>
 </body>
 </html>

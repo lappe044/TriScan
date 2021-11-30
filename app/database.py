@@ -88,6 +88,11 @@ def update_password(email, password):
 def get_courses(uid):
     return mongo.db.courses.find({"members": {"$all": [uid]}}, {'_id': 0, 'members': 0})
 
+def get_uid_from_name(name):
+    user = mongo.db.users.find_one({'fullName': name}, {'_id': 0})
+    return user['uid']
+    
+
 
 def get_assignments(uid, courseid):
     assignments = mongo.db.assignments.find({"courseId": courseid})
@@ -121,7 +126,7 @@ def get_assignments(uid, courseid):
     return assignments_returnable
 
 
-def upload_file(file_name, file_contents):
+def upload_file_to_database(file_name, file_contents):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_contents)
 
@@ -149,6 +154,18 @@ def get_categories(courseId):
     course = mongo.db.categories.find_one({"courseId": courseId})
     category_data = course['courseCategories']
     return category_data
+
+def update_categories(courseId, categoryType):
+    course = mongo.db.categories.find_one({"courseId": courseId})
+    course.update_one({'courseId': courseId}, {'$push': {'couseCategories': categoryType}}, upsert = True)
+
+def add_to_roster(courseId, uid):
+    course = mongo.db.courses.find_one({'courseId': courseId})
+    course.update_one({'courseId': courseId}, {'$push': {'members': uid}}, upsert = True)
+
+def delete_from_roster(courseId, uid):
+    course = mongo.db.categories.find_one({'courseId': courseId})
+    course.update_one({'courseId': courseId}, {'$pull': {'members': uid}})
 
 """
 #can be config'd to insert data to mongo

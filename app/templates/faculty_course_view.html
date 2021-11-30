@@ -46,9 +46,9 @@
                     </div>
                     </button>
                     <div class="form-popup" id="myForm">
-                        <form  class="form-container" action="{{ url_for('login')}}" method="post">
+                        <form  class="form-container" action="{{ url_for('add_category', courseId=course['courseId'])}}" method="post">
                             <h3>Add a Category</h3>
-                            <input type="text" placeholder="Enter Name" name="name" required>    
+                            <input type="text" placeholder="Enter Name" name="name" id="category" required>    
                             <div id="buttons"> 
                                 <button type="submit" class="btn submit">Confirm</button>
                                 <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
@@ -79,11 +79,11 @@
                         </div>
                         </button>
                         <div class="form-popup2" id="add-person">
-                            <form  class="form-container" action="{{ url_for('login')}}" method="post">
+                            <form  class="form-container" action="{{ url_for('add_person', courseId=course['courseId'])}}" method="post">
                                 <h3>Add a Person</h3>
-                                <input type="text" placeholder="Enter Name" name="name" required>   
+                                <input type="text" placeholder="Enter Name" name="name" id="name" required>   
                                 <div id="radio">
-                                    <label style="display:flex; width: 40%;"><input type="radio" name="profession" value="student" checked>Student</label>
+                                    <label style="display:flex; width: 40%;"><input type="radio" name="profession" id="role" value="student" checked required>Student</label>
                                     <label><input type="radio" name="profession" value="faculty">Faculty</label> 
                                 </div>
                                 <div id="buttons"> 
@@ -104,7 +104,7 @@
                         <tr>
                             <td>{{ student['fullName'] }}</td>
                             <td>{{ student['role'] }}</td>
-                            <td onclick="deleteUser(student['uid'])"><i class="fa fa-minus"></i></td>
+                            <td href="{{url_for('delete_from_roster', courseId=course['courseId'])}}"><i class="fa fa-minus"></i></td>
                         </tr>
                     {% endfor %}
                 </table>
