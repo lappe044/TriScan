@@ -158,8 +158,8 @@ def allowed_file(filename):
     else:
         return False
 
-        
-@app.route("/course/<courseId>", methods=["POST"])
+    
+@app.route("/course/<courseId>", methods=["POST", "GET"])
 def add_person(courseId):
     if request.method == "POST":
 
@@ -172,19 +172,27 @@ def add_person(courseId):
                 add_to_roster(courseId, uid)
             else:
                 print("User is not registered")
-
     return redirect('/course/'+courseId)
+    #return render_template('/faculty_course_view.html')
 
+@app.route("/course/<courseId>", methods=["POST", "GET"])
 def add_category(courseId):
+    print("category is here")
     if request.method == "POST":
 
         req = request.form
-
+        
         if 'category' in req.keys():
-
+        
             if courseId is not None:
                 update_categories(courseId, req['category'])
+    return redirect('/course/'+courseId)
+    #return render_template('/faculty_course_view.html')
+    #return render_template('/faculty_course_view.html', course=request.args.get('course'), students=request.args.get('students'), categories=request.args.get('categories'),courseId = request.args.get('courseId'))
 
+@app.route("/course/<courseId>", methods=["POST", "GET"])
+def delete_from_roster(courseId, uid):
+    delete_user_from_roster(courseId, uid)
     return redirect('/course/'+courseId)
 
 @app.route("/upload-file/<courseId>", methods=["GET", "POST"])
