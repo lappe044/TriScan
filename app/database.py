@@ -121,7 +121,7 @@ def get_assignments(uid, courseid):
     return assignments_returnable
 
 
-def upload_file(file_name, file_contents):
+def upload_file_to_database(file_name, file_contents):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_contents)
 

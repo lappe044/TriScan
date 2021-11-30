@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, make_response
 from app import app
 from app.database import *
 from werkzeug.utils import secure_filename
+import math
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -101,7 +102,7 @@ def logout():
 
 @app.route("/messages")
 def messages():
-    
+
     return render_template("/messages.html")
 
 
@@ -128,7 +129,7 @@ def student_class(courseId):
     uid = get_uid_from_session(request.cookies['Authorization'])
     if uid is not None:
         assignments = get_assignments(uid, courseId)
-        return render_template("/class.html", assignments=assignments)
+        return render_template("/class.html", assignments=assignments, courseId=courseId)
 
 
     return render_template("/class.html")
@@ -143,9 +144,9 @@ def allowed_file(filename):
 
     if not "." in filename:
         return False
-    
+
     # take the first element from the right and store in the extension var
-    ext = filename.split(".", 1)[1] 
+    ext = filename.split(".", 1)[1]
 
     # compare ext with allowed_file_extensions
     if ext.upper() in app.config["ALLOWED_FILE_EXTENSIONS"]:
@@ -154,34 +155,51 @@ def allowed_file(filename):
         return False
 
 
-@app.route("/upload-file", methods=["GET", "POST"])
-def upload_file():
+@app.route("/upload-file/<courseId>", methods=["GET", "POST"])
+def upload_file(courseId):
 
     if request.method == "POST":
 
-        if request.files:
+        if 'Authorization' in request.cookies.keys():
+            uid = get_uid_from_session(request.cookies['Authorization'])
 
-            # Get the file object
-            file = request.files["file"]
+            if request.files and uid is not None:
 
-            if file.filename == "":
-                print("File must have a filename")
+                # Get the file object
+                file = request.files["file"]
 
-                return redirect(request.url)
+                if file.filename == "":
+                    print("File must have a filename")
 
-            if not allowed_file(file.filename):
-                print("The file extensions is not allowed")
+                    return redirect('/course/'+courseId)
 
-                return redirect(request.url)
-            else:
-                # extra step to secure the file 
-                filename = secure_filename(file.filename)
+                elif not allowed_file(file.filename):
+                    print("The file extensions is not allowed")
 
-                #TODO (kevin): save filename in database
+                    return redirect('/course/'+courseId)
+                else:
+                    # extra step to secure the file
+                    filename = secure_filename(file.filename)
+                    assignmentId = request.form['assignmentId']
+                    if len(assignmentId) > 0 and len(courseId) > 0:
+                        file_data = upload_file_to_database(filename, file)
+                        print(file_data)
 
-    return render_template("/class.html")
+                        submissionId = str(uuid.uuid4())
+                        submissions_object = {
+                            'submissionId': submissionId,
+                            'uid': uid,
+                            'courseId': courseId,
+                            'assignmentId': assignmentId,
+                            'files': [file_data['fileId']],  # allowed for possibility to add multiple files in db. maybe out of scope?
+                            'submittedAt': math.ceil(time.time()) + (60 * 60 * 24 * 7),
+                            'references': []  # doesn't store any references... maybe we add that as input in form?
+                        }
+                        mongo.db.submissions.insert_one(submissions_object)
 
-   
+    return redirect('/course/'+courseId)
+
+
 @app.route('/upload', methods=["POST"])
 def upload():
     for file in request.files:
