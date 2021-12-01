@@ -13,6 +13,20 @@
   height: 30px;
 }
 
+#view_report {
+  background: #2e8db6;
+  border: none;
+  width: 6rem;
+  height: 3rem;
+  margin-left: 500px;
+  border-radius: 30px;
+  color: white;
+  text-align: center;
+  display: flex;
+  cursor: pointer;
+}
+
+
 .add_category > h5 {
   margin-right: 0.5rem;
 }
