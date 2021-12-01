@@ -25,40 +25,181 @@
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="{{ url_for('dashboard_page') }}">Dash</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a class="active" href="{{url_for('dashboard_page')}}">Dash</a>
+            <a href="{{url_for('logout')}}">Logout</a>
+
+            <hr>
+
+            <div id="chats_container">
+
+            </div>
         </div>
 
         <div class="right_content">
 
             <h2>Chat Messages</h2>
 
-<div class="container">
-  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
-  <p>Hi Alexis! I noticed some instances of plagiarism in your last assignment. Please review your report</p>
-  <span class="time-right">11:00</span>
-</div>
+            <div id="message_container" style="overflow: auto;">
 
-<div class="container darker">
-  <img src="/static/images/AlexisLappe.jpg" alt="Avatar" class="right" style="width:100%;">
-  <p>Will do! </p>
-  <span class="time-left">11:01</span>
-</div>
+                <!--<div class="container">
+                  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
+                  <p>Hi Alexis! I noticed some instances of plagiarism in your last assignment. Please review your report</p>
+                  <span class="time-right">11:00</span>
+                </div>
 
-<div class="container">
-  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
-  <p>Thank you! See you in class</p>
-  <span class="time-right">11:02</span>
-</div>
+                <div class="container darker">
+                  <img src="/static/images/AlexisLappe.jpg" alt="Avatar" class="right" style="width:100%;">
+                  <p>Will do! </p>
+                  <span class="time-left">11:01</span>
+                </div>
 
+                <div class="container">
+                  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
+                  <p>Thank you! See you in class</p>
+                  <span class="time-right">11:02</span>
+                </div>-->
 
+            </div>
+            <form action='{{ chatId }}/send' method="post">
+                <input type="text" id="message" name="message">
+                <input type="submit">
+            </form>
+        </div>
 
-          
-              
-         </div>
+        <script>
+            var chat_data = {};
+            var start_time = Date.now();
+            var last_refresh = start_time/1000;
+            var most_recent_message = 0;
 
+            function load_chat_data(){
+                console.log('get chat data!');
+                var http = new XMLHttpRequest();
+                var url = 'http://127.0.0.1:2000/chats/{{ chatId }}/json';
+                http.open('GET', url, true);
+                http.setRequestHeader('Content-type', 'application/json');
+                http.onreadystatechange = function() {
+                    if(http.readyState === XMLHttpRequest.DONE) {
+                        console.log(http.responseText);
+                        chat_data = JSON.parse(http.responseText);
+                    }
+                }
+                http.send();
+                return false;
+            }
 
-        
+            function load_messages(before, after){
+                console.log('test!', before, after);
+
+                data = {
+                    'before': before,
+                    'after': after
+                };
+
+                var http = new XMLHttpRequest();
+                var url = 'http://127.0.0.1:2000/messages/{{ chatId }}/json';
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/json');
+                http.onreadystatechange = function() {
+                    if(http.readyState === XMLHttpRequest.DONE) {
+                        console.log(http.responseText);
+                        var json = JSON.parse(http.responseText);
+                        var message_holding = document.getElementById('message_container');
+                        json['messages'].reverse();
+                        for (item in json['messages']) {
+                            console.log(json[item]);
+
+                            if (json['messages'][item]['sentAt'] > most_recent_message){
+                                console.log('MOST RECENT MESSAGE IS NOW:',most_recent_message,json['messages'][item]['sentAt']);
+                                most_recent_message = json['messages'][item]['sentAt'];
+                            }
+
+                            var message_content = document.createElement('DIV');
+                            if (json['messages'][item]['uid'] == "{{ uid }}"){
+                                message_content.classList.add("darker");
+                            }
+                            message_content.classList.add("container");
+
+                            var profile_picture = document.createElement('IMG');
+                            profile_picture.src = '/images/profile_pictures/'+json['messages'][item]['uid'];
+                            profile_picture.alt = 'Avatar';
+                            profile_picture.style = 'width:100%;';
+                            if (json['messages'][item]['uid'] == "{{ uid }}"){
+                                profile_picture.classList.add("right");
+                            }
+
+                            var content = document.createElement('P');
+                            content.innerText = json['messages'][item]['content'];
+
+                            var time_box = document.createElement('SPAN');
+                            var date_day = new Date(json['messages'][item]['sentAt']*1000).toLocaleDateString("en-US")
+                            var date_time = new Date(json['messages'][item]['sentAt']*1000).toLocaleTimeString("en-US")
+                            //time_box.innerText = json['messages'][item]['sentAt'];
+                            time_box.innerText = json['users'][json['messages'][item]['uid']]['fullName'] + ' at ' +date_day + ' | '+ date_time;
+                            if (json['messages'][item]['uid'] == "{{ uid }}"){
+                                time_box.classList.add("time-right");
+                            }
+                            else{
+                                time_box.classList.add("time-left");
+                            }
+
+                            message_content.appendChild(profile_picture);
+                            message_content.appendChild(content);
+                            message_content.appendChild(time_box);
+
+                            message_holding.appendChild(message_content);
+                        }
+                    }
+                }
+                http.send(JSON.stringify(data));
+                return false;
+            }
+            function refresh_side_chats(){
+                console.log('refresh side chats!');
+                var http = new TRWXMLHttpRequest();
+                var url = 'http://127.0.0.1:2000/chats/json';
+                http.open('GET', url, true);
+                http.setRequestHeader('Content-type', 'application/json');
+                http.onreadystatechange = function() {
+                    if(http.readyState === XMLHttpRequest.DONE) {
+                        console.log(http.responseText);
+
+                        var json = JSON.parse(http.responseText);
+                        var chats_container = document.getElementById('chats_container');
+
+                        chats_container.innerHTML = '';
+
+                        for (chat in json){
+                            chat_div = document.createElement('div');
+
+                            chat_link = document.createElement('a');
+                            chat_link.href = 'http://127.0.0.1:2000/messages/'+json[chat]['chatId'];
+                            chat_link.innerHTML = json[chat]['chatId'];
+
+                            console.log(json[chat]['chatId']);
+
+                            chat_div.appendChild(chat_link);
+
+                            chats_container.appendChild(chat_div)
+
+                        }
+
+                    }
+                }
+                http.send(JSON.stringify(data));
+                return false;
+            }
+
+            load_chat_data();
+            load_messages(start_time,0);
+            refresh_side_chats();
+
+            setInterval(function() { var this_time = Date.now()/1000; load_messages(this_time, most_recent_message); last_refresh = this_time}, 5000);
+            setInterval(refresh_side_chats, 5000);
+            //setInterval(load_chat_data, 5000);
+
+        </script>
+    </div>
 </body>
 
 </html>

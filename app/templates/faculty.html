@@ -26,6 +26,8 @@
             </a>
             <a class="active" href="{{ url_for('dashboard_page') }}">Dash</a>
             <a href="{{ url_for('logout') }}">Logout</a>
+
+
         </div>
 
         <div class="right_content">
@@ -40,6 +42,19 @@
                     </div>
                 </div>
 
+            <div class = "header_right">
+                <div class ="icon_right_left">
+                    <a  class = "icon_a" href="{{ url_for('messages')}}">
+                    <i class="fa fa-comment fa-4x" aria-hidden="true"></i>
+                    </a>
+
+                </div>
+                <div class = "icon_right_right">
+                    <a  class = "icon_a" href="{{ url_for('report') }}">
+                        <i class="fa fa-bell fa-4x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
             </div>
 
             <div class="centered">

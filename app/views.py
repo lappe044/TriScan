@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, make_response
+from flask import render_template, request, redirect, make_response, jsonify, send_file, url_for
 from app import app
 from app.database import *
 from werkzeug.utils import secure_filename
@@ -25,6 +25,10 @@ def login():
             else:
                 # FLASH USER WITH INCORRECT LOGIN DETAILS ERROR HERE.
                 return redirect('/')
+
+    if request.method == 'GET':
+        if 'Authorization' in request.cookies.keys():
+            return redirect(url_for('dashboard_page'))
 
     return render_template('login.html')
 
@@ -81,13 +85,11 @@ def dashboard_page():
                 if role == 'Student':
 
                     student_name = user["firstName"]
-                    print(student_name)
                     return render_template('student.html', student_name=student_name, courses=courses)
 
                 if role == 'Faculty':
 
                     faculty_name = user["lastName"]
-                    print(faculty_name)
                     return render_template('faculty.html', faculty_name=faculty_name, courses=courses)
 
     response = make_response(redirect('/login'))
@@ -98,12 +100,6 @@ def dashboard_page():
 def logout():
 
     return render_template("/login.html")
-
-
-@app.route("/messages")
-def messages():
-
-    return render_template("/messages.html")
 
 
 @app.route("/categories")
@@ -248,3 +244,66 @@ def upload():
     return None
 
 
+@app.route('/messages', methods=['GET'])
+def messages():
+    if 'Authorization' in request.cookies.keys():
+        uid = get_uid_from_session(request.cookies['Authorization'])
+        if uid is not None:
+            most_recent_chat = get_most_recent_chat(uid)
+            if most_recent_chat is not None:
+                return redirect('/messages/'+most_recent_chat)
+            else:
+                return redirect('/messages/new')
+
+
+@app.route('/messages/<chatId>', methods=['GET'])
+def get_chat(chatId):
+    if 'Authorization' in request.cookies.keys():
+        uid = get_uid_from_session(request.cookies['Authorization'])
+        if uid is not None:
+            return render_template('messages.html', uid=uid, chatId=chatId)
+
+
+@app.route('/messages/<chatId>/json', methods=['POST'])
+def get_json_chat(chatId):
+    data = request.json
+    messages = load_messages(chatId, 10000, data['before'], data['after'])
+    return jsonify(messages)
+
+
+@app.route('/chats/<chatId>/json', methods=['GET'])
+def get_chat_data(chatId):
+    chat = load_chat_data(chatId)
+    return jsonify(chat)
+
+
+@app.route('/chats/json', methods=['GET'])
+def get_side_chats():
+    if 'Authorization' in request.cookies.keys():
+        uid = get_uid_from_session(request.cookies['Authorization'])
+        if uid is not None:
+            recent_chats = get_recent_chats(uid)
+            return jsonify(recent_chats)
+
+
+@app.route('/messages/<chatId>/send', methods=['POST'])
+def user_sent_message(chatId):
+    if 'Authorization' in request.cookies.keys():
+        uid = get_uid_from_session(request.cookies['Authorization'])
+        if uid is not None:
+            data = request.form
+            send_message(uid, chatId, data['message'], [])
+            return redirect(url_for('get_chat', chatId=chatId))
+
+
+@app.route('/images/profile_pictures/<uid>')
+def get_profile_picture(uid):
+    user_to_get = get_user_from_uid(uid)
+    if user_to_get['profilePicture'] is not None:
+        file = get_file(user_to_get['profilePicture'])
+        if file is not None:
+            return send_file('static/images/default_profile_picture.jpg', mimetype='image/gif')
+            # NO WAY TO ACTUALLY SET PFP IN THE CODE SO USELESS TO CHECK AS OF RN, NOT HARD TO IMPLEMENT LATER
+            # MOVING ON TO KEEP PROGRESS.
+        else:
+            return send_file('static/images/default_profile_picture.jpg', mimetype='image/gif')
