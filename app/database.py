@@ -136,7 +136,7 @@ def get_assignments(uid, courseid):
 
     return assignments_returnable
 
-
+#KEVIN PLEASE SEE IF YOU CAN GET THIS TO WORK worst case we use a text file instead of a pdf to show we can do something
 def upload_file_to_database(file_name, file_contents, courseId):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_contents)
@@ -202,6 +202,7 @@ def create_chat(userId):
     mongo.db.chats.insert_one({'chatName': 'New Chat', 'chatId': chatId, 'lastMessageAt': sentAt, 'lastMessageId': None, 'members': [userId]})
     return chatId
 
+#KEVIN PLEASE LOOK AT THIS
 def create_chat_with_user(userId, creatorId, chatName):
     existingChatId = list(mongo.db.chats.find({'chatName': {'$all': [chatName]}}).limit(1))
     if len(existingChatId) > 0:
