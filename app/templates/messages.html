@@ -75,7 +75,7 @@
             function load_chat_data(){
                 console.log('get chat data!');
                 var http = new XMLHttpRequest();
-                var url = 'http://127.0.0.1:2000/chats/{{ chatId }}/json';
+                var url = '{{ url_root }}/chats/{{ chatId }}/json';
                 http.open('GET', url, true);
                 http.setRequestHeader('Content-type', 'application/json');
                 http.onreadystatechange = function() {
@@ -97,7 +97,7 @@
                 };
 
                 var http = new XMLHttpRequest();
-                var url = 'http://127.0.0.1:2000/messages/{{ chatId }}/json';
+                var url = '{{ url_root }}/messages/{{ chatId }}/json';
                 http.open('POST', url, true);
                 http.setRequestHeader('Content-type', 'application/json');
                 http.onreadystatechange = function() {
@@ -156,8 +156,8 @@
             }
             function refresh_side_chats(){
                 console.log('refresh side chats!');
-                var http = new TRWXMLHttpRequest();
-                var url = 'http://127.0.0.1:2000/chats/json';
+                var http = new XMLHttpRequest();
+                var url = '{{ url_root }}/chats/json';
                 http.open('GET', url, true);
                 http.setRequestHeader('Content-type', 'application/json');
                 http.onreadystatechange = function() {
@@ -173,7 +173,7 @@
                             chat_div = document.createElement('div');
 
                             chat_link = document.createElement('a');
-                            chat_link.href = 'http://127.0.0.1:2000/messages/'+json[chat]['chatId'];
+                            chat_link.href = '{{ url_root }}/messages/'+json[chat]['chatId'];
                             chat_link.innerHTML = json[chat]['chatId'];
 
                             console.log(json[chat]['chatId']);

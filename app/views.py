@@ -261,7 +261,7 @@ def get_chat(chatId):
     if 'Authorization' in request.cookies.keys():
         uid = get_uid_from_session(request.cookies['Authorization'])
         if uid is not None:
-            return render_template('messages.html', uid=uid, chatId=chatId)
+            return render_template('messages.html', uid=uid, chatId=chatId, url_root=request.base_url.replace('//', '\\\\').split('/')[0].replace('\\\\', '//'))
 
 
 @app.route('/messages/<chatId>/json', methods=['POST'])

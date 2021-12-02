@@ -178,8 +178,12 @@ def get_recent_chats(userId, limit=5):
 
 
 def get_most_recent_chat(userId):
-    most_recent_chat = list(mongo.db.chats.find({'members': {'$all': [userId]}}, {'_id': 0}).sort('lastMessageAt', -1).limit(1))[0]
-    return most_recent_chat['chatId']
+    most_recent_chat = list(mongo.db.chats.find({'members': {'$all': [userId]}}, {'_id': 0}).sort('lastMessageAt', -1).limit(1))
+    if len(most_recent_chat) > 0:
+        most_recent_chat = most_recent_chat[0]
+        return most_recent_chat['chatId']
+    else:
+        return None
 
 
 def rename_chat(chatId, chatName):
@@ -195,12 +199,15 @@ def send_message(userId, chatId, message, attachments=[]):
 
 def load_chat_data(chatId):
     chat_data = mongo.db.chats.find_one({'chatId': chatId}, {'_id': 0})
-    users = list(mongo.db.users.find({'uid': {'$in': chat_data['members']}}, {'_id': 0}))
-    dict_users = {}
-    for user in users:
-        dict_users[user['uid']] = user
-    chat_data['members'] = dict_users
-    return chat_data
+    if chat_data is not None:
+        users = list(mongo.db.users.find({'uid': {'$in': chat_data['members']}}, {'_id': 0}))
+        dict_users = {}
+        for user in users:
+            dict_users[user['uid']] = user
+        chat_data['members'] = dict_users
+        return chat_data
+    else:
+        return {}
 
 
 def load_messages(chatId, limit=5, before=None, after=0):
