@@ -61,7 +61,7 @@
                     <section class="cards">
                         {% for category in categories  %}
                             <article class="card">
-                                <a href="{{ url_for('generate_category_reports', courseId=course['courseId'], category=categoty) }}">
+                                <a href="{{ url_for('generate_category_reports', courseId=courseId, category=category) }}">
                                     <p>{{ category }}</p>
                                 </a>
                             </article>

@@ -139,13 +139,6 @@ def list_reports(courseId, student_name):
             return render_template("/report_list_by_student.html", student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, title=courseName, course=courseSection)
         if role == 'Faculty': 
             return render_template("/report_list_by_student.html", title=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, courseName=courseName, course=courseSection)
-        """
-        if role == 'Faculty':
-            students = get_students(courseId)
-            course = get_course_section(courseId)
-            categories = get_categories(courseId)
-            return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId, zip=zip)
-            """
 
 @app.route("/reports/<student_name>")
 def reports(student_name):
@@ -196,13 +189,35 @@ def generated_reports(reportId, student_name):
             return render_template("generated_report_faculty.html", file = file, errors = errors, scores =scores, name=student_name)
 
 
-@app.route("/reports/<student_name>/all/<courseId>")
-def generate_student_course_reports(courseId, student_name):
-    return render_template("report_list_by_student", name=student_name, zip=zip)
 
-@app.route("/reports/<courseId>/<category>")
-def generate_category_reports(courseId, student_name):
-    return render_template("report_list_by_category.html", name=student_name, zip=zip)
+
+@app.route("/course/<courseId>/<category>/reports")
+def generate_category_reports(courseId, category):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    print(courseId)
+    if uid is not None:
+        reports = []
+        assignmentsList =[]
+        submissions= []
+        assignments = get_assignments(uid, courseId)
+        previousAssignment = assignments['previous']
+        for assign in previousAssignment:
+            if assign['category'] == category:
+                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
+                if len(most_recent_submission) > 0:
+                    most_recent_submission = most_recent_submission[0]
+                    report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                    permitted_users = report['reportPermittedUsers']
+                    for p in permitted_users:
+                        if p == uid:
+                            reports.append(report)
+                            submissions.append(assign)
+                            assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
+                            print(assignment)
+                            assignmentsList.append(assignment)
+            courseSection = get_course_section(courseId)
+            courseName = get_course_name(courseId)   
+            return render_template("report_list_by_category.html", category=category, courseId=courseId,  reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, title=courseName, course=courseSection)
 
 @app.route("/course/<courseId>/students")
 def student_roster(courseId):
@@ -219,11 +234,14 @@ def list_courses(courseId):
             course = get_course_section(courseId)
             assignments = get_assignments(uid, courseId)
             print(courseId)
-            return render_template("/class.html", assignments=assignments, course=course, courseId=courseId, url_root=request.base_url.replace('//', '\\\\').split('/')[0].replace('\\\\', '//'))
+            user = get_user_from_uid(uid)
+            name = user['fullName']
+            return render_template("/class.html", name=name, assignments=assignments, course=course, courseId=courseId, url_root=request.base_url.replace('//', '\\\\').split('/')[0].replace('\\\\', '//'))
         if role == 'Faculty':
             students = get_students(courseId)
             course = get_course_section(courseId)
             categories = get_categories(courseId)
+            print(courseId)
             return render_template("/faculty_course_view.html", course=course, students=students, categories=categories, courseId=courseId)
 
 app.config["ALLOWED_FILE_EXTENSIONS"] = ["PDF", "DOC", "DOCX"]
