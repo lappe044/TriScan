@@ -40,22 +40,17 @@
             <table>
                 <tr>
                     <th>Coursework Name</th>
-                    <th>Category</th>
-                    <th>Due Date</th>
+                    <th>Class</th>
                     <th>View</th>
                 </tr>
-                <!--
-                {% for assignment in assignments['upcoming'] display all reports for a %}
-                    <tr>
-                        <td>{{ assignment['assignmentName'] }}</td>
-                        <td>{{ assignment['category'] }}</td>
-                        <td>{{ assignment['dueAt'] }}</td>
-                        <td ><button id="upload-button" onclick="openForm2()"><i  class="fa fa-upload" aria-hidden="true"></i></button></td>
-                    </tr>
-                {% endfor %}
-                -->
-            </table>
-            
+                {% for (report, assign) in zip(reports, assignment)%}
+                <tr>
+                    <td>{{ assign['assignmentName'] }}</td>
+                    <td>{{ assign['category'] }}</td>
+                    <td ><a href= "{{ url_for('generated_category_reports', reportId = report['reportId'], student_name=student_name)}}"><i  class="fa fa-plus" aria-hidden="true"></i></a></td>
+                </tr>
+            {% endfor %}
+            </table>    
       </div>
 
 </body>

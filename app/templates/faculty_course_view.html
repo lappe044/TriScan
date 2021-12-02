@@ -61,7 +61,7 @@
                     <section class="cards">
                         {% for category in categories  %}
                             <article class="card">
-                                <a href="{{ url_for('dashboard_page', courseId=course['courseId']) }}">
+                                <a href="{{ url_for('generate_category_reports', courseId=course['courseId'], category=categoty) }}">
                                     <p>{{ category }}</p>
                                 </a>
                             </article>
@@ -102,7 +102,7 @@
                     </tr>
                     {% for student in students %}
                         <tr>
-                            <td>{{ student['fullName'] }}</td>
+                            <td><a href="{{url_for('generate_student_course_reports', courseId=courseId, uid=student['uid'])}}">{{ student['fullName'] }}</a></td>
                             <td>{{ student['role'] }}</td>
                             <td><a href="{{url_for('delete_from_roster', courseId=courseId, uid=student['uid'])}}"><i class="fa fa-minus"></i></a></td>
                         </tr>

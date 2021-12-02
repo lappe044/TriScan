@@ -119,12 +119,12 @@ def list_reports(courseId):
             courseSection = get_course_section(courseId)
             courseName = get_course_name(courseId)
             assignments = get_assignments(uid, courseId)
-            return render_template("/report_list_by_student.html", assignments=assignments, course=courseSection, courseId=courseId, courseName=courseName)
+            return render_template("/report_list_by_student.html", assignments=assignments, course=courseSection, courseId=courseId, courseName=courseName, zip=zip)
         if role == 'Faculty':
             students = get_students(courseId)
             course = get_course_section(courseId)
             categories = get_categories(courseId)
-            return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId)
+            return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId, zip=zip)
 
 @app.route("/reports/<student_name>")
 def reports(student_name):
@@ -151,16 +151,33 @@ def reports(student_name):
         
     return render_template("/report.html", courses=courses, student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList)
 
+#can maybe add faculty functionality to this? check for role then render
 @app.route("/reports/<student_name>/<reportId>")
 def generated_reports(reportId, student_name):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    if uid is not None:
+        role = get_role_from_uid(uid)
+        if role == 'Student':
+            report = mongo.db.reports.find_one({'reportId': reportId})
+            file = report['files']
+            errors = report['grammarErrors']
+            scores = report['scoring']
+            return render_template("generated_report.html", file = file, errors = errors, scores =scores, name=student_name)
+        if role == 'Faculty':
+            report = mongo.db.reports.find_one({'reportId': reportId})
+            file = report['files']
+            errors = report['grammarErrors']
+            scores = report['scoring']
+            return render_template("generated_report_faculty.html", file = file, errors = errors, scores =scores, name=student_name)
 
-    report = mongo.db.reports.find_one({'reportId': reportId})
-    file = report['files']
-    errors = report['grammarErrors']
-    scores = report['scoring']
-    return render_template("generated_report.html", file = file, errors = errors, scores =scores, name=student_name)
 
+@app.route("/reports/<student_name>/all/<courseId>")
+def generate_student_course_reports(courseId, student_name):
+    return render_template("report_list_by_student", name=student_name, zip=zip)
 
+@app.route("/reports/<courseId>/<category>")
+def generate_category_reports(courseId, student_name):
+    return render_template("report_list_by_category.html", name=student_name, zip=zip)
 
 @app.route("/course/<courseId>/students")
 def student_roster(courseId):

@@ -31,13 +31,13 @@
         
         <div class= "title">
             <!--Add dynamic assignment name here--->
-            <h1>Report</h1>
+            <h1>Report for {{student_name}} </h1>
         </div>
 
         <div class = "icons_holder">
              <!--Add kevin's download here--->
-            <a  class = "icon_a" href="/templates/categories.html">
-                <i class="fa fa-download fa-2x" aria-hidden="true"></i>
+            <a  class = "icon_a">
+                <button  id="download-button"><i onclick="window.open('{{ url_root }}/download/{{ file }}')" class="fa fa-download fa-2x" aria-hidden="true" id="{{ file }}"></i></button>
             </a>
             
              <!--add funct to handle new permissions for student--->
@@ -60,8 +60,13 @@
         <div class="right_content">
 
                 <div class = "report">
-                     <!--dynamic divs will go here--->
-                    <img src="/static/images/page2.png">
+                    <div class="error-container">
+                        {% for e in errors%}
+                      
+                            <p class="error">{{ e }}</p>
+                      
+                        {% endfor %}
+                        </div>
                 </div>
     
                <div class = "key">
@@ -74,7 +79,7 @@
                                          <p>Plagiarism</p>
                                     </div>
                                     <div class = "bottom">
-                                            <span class = "plagiarism" style="width: 25%"></span>
+                                            <span class = "plagiarism"></span>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +90,7 @@
                                         <p>Similarities</p>
                                    </div>
                                    <div class = "bottom">
-                                           <span class = "similarities" style="width: 10%"></span>
+                                           <span class = "similarities"></span>
                                    </div>
                                 </div>
             
@@ -98,7 +103,7 @@
                                         <p>Grammatical Errors</p>
                                    </div>
                                    <div class = "bottom">
-                                           <span class = "grammatical_errors" style="width: 75%"></span>
+                                           <span class = "grammatical_errors"></span>
                                    </div>
                                 </div>
                             </div>
