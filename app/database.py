@@ -5,6 +5,10 @@ from app.config import *
 from hashlib import md5
 import secrets
 from gingerit.gingerit import GingerIt
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import sent_tokenize, wordpunct_tokenize
+import PyPDF2
 
 
 def get_hash(password):
@@ -133,7 +137,7 @@ def get_assignments(uid, courseid):
     return assignments_returnable
 
 
-def upload_file_to_database(file_name, file_contents):
+def upload_file_to_database(file_name, file_contents, courseId):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_contents)
 
@@ -143,7 +147,34 @@ def upload_file_to_database(file_name, file_contents):
     }
 
     mongo.db.files.insert_one(file)
+    file = get_file(fileId)
+    
+ 
+    # creating a pdf file object
+    pdfFileObj = open(file, 'rb')
+    
+    # creating a pdf reader object
+    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+    
+    # printing number of pages in pdf file
+    print(pdfReader.numPages)
+    
+    for page in pdfReader.numPages:
+        # creating a page object
+        pageObj = pdfReader.getPage(page)
+   
+        # extracting text from page
+        data = pageObj.extractText()
 
+        #split into sentences
+        sent_tokenize(data)
+        
+        #send each sentence to grammar checker
+        for d in data:
+            grammar_check_file(d, courseId)
+    
+    # closing the pdf file object
+    pdfFileObj.close()
     return file
 
 
@@ -152,11 +183,11 @@ def get_file(fileId):
 
 
 # This LIBRARY WE'RE USING DOESN'T ALLOW FOR MORE THAN 300 CHARS PER REQUEST. WE NEED TO SPLIT THE TEXT BY SENTENCES / MAX 300 CHARS
-def grammar_check_file(text):
+def grammar_check_file(text, courseId):
     gingered_dict = GingerIt().parse(text)
     print(gingered_dict)
     for fix in gingered_dict['corrections']:
-        print(fix)
+        mongo.db.reports.update_one({'courseId': courseId}, {'$push': {'grammarErrors': fix}})
 
 
 def get_students(courseId):

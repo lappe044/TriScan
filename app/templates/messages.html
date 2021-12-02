@@ -158,7 +158,7 @@
 
                             chat_link = document.createElement('a');
                             chat_link.href = '{{ url_root }}/messages/'+json[chat]['chatId'];
-                            chat_link.innerHTML = json[chat]['chatId'];
+                            chat_link.innerHTML = json[chat]['members']['firstName'];
 
                             console.log(json[chat]['chatId']);
 

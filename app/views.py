@@ -237,7 +237,7 @@ def upload_file(courseId):
                     filename = secure_filename(file.filename)
                     assignmentId = request.form['assignmentId']
                     if len(assignmentId) > 0 and len(courseId) > 0:
-                        file_data = upload_file_to_database(filename, file)
+                        file_data = upload_file_to_database(filename, file, courseId)
                         print(file_data)
 
                         submissionId = str(uuid.uuid4())
