@@ -34,7 +34,7 @@
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
                     </div>
                 </div>
-                <a  href="{{ url_for('list_reports', courseId=courseId )}}">
+                <a  href="{{ url_for('list_reports', courseId=courseId, student_name= uid['fulNname'] )}}">
                     <button class = "add_category" id="view_report">
                             <h4>View Reports</h4>
                         <div class = "add_right">

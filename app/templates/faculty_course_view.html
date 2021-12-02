@@ -102,7 +102,7 @@
                     </tr>
                     {% for student in students %}
                         <tr>
-                            <td><a href="{{url_for('generate_student_course_reports', courseId=courseId, uid=student['uid'])}}">{{ student['fullName'] }}</a></td>
+                            <td><a href="{{url_for('list_reports', courseId=courseId, student_name=student['fullName'] )}}">{{ student['fullName'] }}</a></td>
                             <td>{{ student['role'] }}</td>
                             <td><a href="{{url_for('delete_from_roster', courseId=courseId, uid=student['uid'])}}"><i class="fa fa-minus"></i></a></td>
                         </tr>

@@ -110,21 +110,42 @@ def categories():
     return render_template("/categories.html")
 
 
-@app.route("/course/<courseId>/reports")
-def list_reports(courseId):
+@app.route("/course/<courseId>/reports/<student_name>")
+def list_reports(courseId, student_name):
     uid = get_uid_from_session(request.cookies['Authorization'])
     role = get_role_from_uid(uid)
     if uid is not None:
+        reports = []
+        assignmentsList =[]
+        submissions= []
+        assignments = get_assignments(uid, courseId)
+        previousAssignment = assignments['previous']
+        for assign in previousAssignment:
+            most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
+            if len(most_recent_submission) > 0:
+                most_recent_submission = most_recent_submission[0]
+                report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                permitted_users = report['reportPermittedUsers']
+                for p in permitted_users:
+                    if p == uid:
+                        reports.append(report)
+                        submissions.append(assign)
+                        assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
+                        print(assignment)
+                        assignmentsList.append(assignment)
+        courseSection = get_course_section(courseId)
+        courseName = get_course_name(courseId)
         if role == 'Student':
-            courseSection = get_course_section(courseId)
-            courseName = get_course_name(courseId)
-            assignments = get_assignments(uid, courseId)
-            return render_template("/report_list_by_student.html", assignments=assignments, course=courseSection, courseId=courseId, courseName=courseName, zip=zip)
+            return render_template("/report_list_by_student.html", student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, title=courseName, course=courseSection)
+        if role == 'Faculty': 
+            return render_template("/report_list_by_student.html", title=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, courseName=courseName, course=courseSection)
+        """
         if role == 'Faculty':
             students = get_students(courseId)
             course = get_course_section(courseId)
             categories = get_categories(courseId)
             return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId, zip=zip)
+            """
 
 @app.route("/reports/<student_name>")
 def reports(student_name):
