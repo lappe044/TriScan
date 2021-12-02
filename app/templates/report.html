@@ -28,7 +28,7 @@
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p>{{ course }}</p>
+                        <p> Hi {{ student_name }}!</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
@@ -40,32 +40,14 @@
             <table>
                 <tr>
                     <th>Coursework Name</th>
-                    <th>Category</th>
-                    <th>Due Date</th>
-                    <th>Upload</th>
+                    <th>Class</th>
+                    <th>View</th>
                 </tr>
-                {% for assignment in assignments['upcoming'] %}
-                    <tr>
-                        <td>{{ assignment['assignmentName'] }}</td>
-                        <td>{{ assignment['category'] }}</td>
-                        <td>{{ assignment['dueAt'] }}</td>
-                        <td ><button id="upload-button" onclick="openForm2()"><i  class="fa fa-upload" aria-hidden="true"></i></button></td>
-                    </tr>
-                {% endfor %}
+                
+              <!----Insert a double for loop for all assignments in each of the classes if possible-->
             </table>
             
       </div>
-    <script>
-        function openForm2() {
-          document.getElementById("myForm2").style.display = "block";
-        }
-
-        function closeForm2() {
-          document.getElementById("myForm2").style.display = "none";
-        }
-
-
-    </script>
 
 </body>
 </html>

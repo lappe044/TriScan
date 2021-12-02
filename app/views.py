@@ -124,7 +124,11 @@ def list_reports(courseId):
             categories = get_categories(courseId)
             return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId)
 
-
+@app.route("/reports/<student_name>/<courses>")
+def reports(courses, student_name):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    if uid is not None:
+        return render_template("/report.html", courses=courses, student_name=student_name)
 
 
 @app.route("/course/<courseId>/students")
