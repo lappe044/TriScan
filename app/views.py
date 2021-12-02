@@ -3,6 +3,7 @@ from app import app
 from app.database import *
 from werkzeug.utils import secure_filename
 import math
+from itertools import zip_longest
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -124,11 +125,40 @@ def list_reports(courseId):
             categories = get_categories(courseId)
             return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId)
 
-@app.route("/reports/<student_name>/<courses>")
-def reports(courses, student_name):
+@app.route("/reports/<student_name>")
+def reports(student_name):
     uid = get_uid_from_session(request.cookies['Authorization'])
     if uid is not None:
-        return render_template("/report.html", courses=courses, student_name=student_name)
+        courses = get_courses(uid)
+        reports = []
+        assignmentsList =[]
+        submissions= []
+        for course in courses:
+            assignments = get_assignments(uid, course["courseId"])
+            previousAssignment = assignments['previous']
+            for assign in previousAssignment:
+                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))[0]
+                report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                permitted_users = report['reportPermittedUsers']
+                for p in permitted_users:
+                    if p == uid:
+                        reports.append(report)
+                        submissions.append(assign)
+                        assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
+                        print(assignment)
+                        assignmentsList.append(assignment)
+        
+    return render_template("/report.html", courses=courses, student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList)
+
+@app.route("/reports/<student_name>/<reportId>")
+def generated_reports(reportId, student_name):
+
+    report = mongo.db.reports.find_one({'reportId': reportId})
+    file = report['files']
+    errors = report['grammarErrors']
+    scores = report['scoring']
+    return render_template("generated_report.html", file = file, errors = errors, scores =scores, name=student_name)
+
 
 
 @app.route("/course/<courseId>/students")
@@ -187,7 +217,6 @@ def add_person(courseId):
             else:
                 print("User is not registered")
     return redirect('/course/'+courseId)
-    #return render_template('/faculty_course_view.html')
 
 @app.route("/course/<courseId>/add-category", methods=["POST", "GET"])
 def add_category(courseId):
@@ -201,8 +230,6 @@ def add_category(courseId):
             
                 update_categories(courseId, req['category'])
     return redirect('/course/'+courseId)
-    #return render_template('/faculty_course_view.html')
-    #return render_template('/faculty_course_view.html', course=request.args.get('course'), students=request.args.get('students'), categories=request.args.get('categories'),courseId = request.args.get('courseId'))
 
 @app.route("/course/<courseId>/delete-person/<uid>", methods=["POST", "GET"])
 def delete_from_roster(courseId, uid):

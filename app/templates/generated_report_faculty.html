@@ -39,15 +39,29 @@
             <a  class = "icon_a" href="/templates/categories.html">
                 <i class="fa fa-download fa-2x" aria-hidden="true"></i>
             </a>
+            
+             <!--add funct to handle new permissions for student--->
+            <button class = "icon_a" onclick="openForm()">
+                <i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i>
+            </button>
         </div>
 
-        
+        <div class="form-popup" id="myForm">
+            <form action="/templates/report.html" class="form-container">
+              <h3>Send Report To: </h3>
+
+              <input type="text" placeholder="Enter Student Name" name="name" required>
+            
+              <button type="submit" class="btn">Send</button>
+              <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+            </form>
+          </div>
 
         <div class="right_content">
 
                 <div class = "report">
-                     <!--dynamic divs or p will go here--->
-                    
+                     <!--dynamic divs will go here--->
+                    <img src="/static/images/page2.png">
                 </div>
     
                <div class = "key">
@@ -60,7 +74,7 @@
                                          <p>Plagiarism</p>
                                     </div>
                                     <div class = "bottom">
-                                            <span class = "plagiarism"></span>
+                                            <span class = "plagiarism" style="width: 25%"></span>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +85,7 @@
                                         <p>Similarities</p>
                                    </div>
                                    <div class = "bottom">
-                                           <span class = "similarities"></span>
+                                           <span class = "similarities" style="width: 10%"></span>
                                    </div>
                                 </div>
             
@@ -84,7 +98,7 @@
                                         <p>Grammatical Errors</p>
                                    </div>
                                    <div class = "bottom">
-                                           <span class = "grammatical_errors"></span>
+                                           <span class = "grammatical_errors" style="width: 75%"></span>
                                    </div>
                                 </div>
                             </div>
