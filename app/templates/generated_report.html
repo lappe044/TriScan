@@ -46,7 +46,13 @@
         <div class="right_content">
 
                 <div class = "report">
-                     <!--dynamic divs or p will go here--->
+                    <div class="error-container">
+                    {% for e in errors%}
+                  
+                        <p class="error">{{ e }}</p>
+                  
+                    {% endfor %}
+                    </div>
                     
                 </div>
     
