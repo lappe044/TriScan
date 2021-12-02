@@ -49,7 +49,7 @@
                 </div>
 
                 
-                <a  href="/templates/report.html">
+                <!-- <a  href="{{ url_for('report')}}">
                 <button class = "add_category" onclick="openForm()">
                     <div class ="add_left">
                         <p>View Reports</p>
@@ -58,7 +58,7 @@
                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                     </div>
                 </button>
-              </a>
+              </a> -->
 
             </div>
 
@@ -88,14 +88,15 @@
                         <th>Coursework Name</th>
                         <th>Category</th>
                         <th>Due Date</th>
-                        <th>Download</th>
+                        <th>Action</th>
                       </tr>
                       {% for previous_assignment in assignments['previous'] %}
                         <tr>
                             <td>{{ previous_assignment['assignmentName'] }}</td>
                             <td>{{ previous_assignment['category'] }}</td>
                             <td>{{ previous_assignment['dueAt'] }}</td>
-                            <td><i class="fa fa-upload" aria-hidden="true" id="{{ previous_assignment['assignmentId'] }}"></i></td>
+                            <td><a href="{{ url_for('report')}}" style='text-decoration:underline;'>View Report</a></td>
+                            <!-- <td><i class="fa fa-download" aria-hidden="true" id="{{ previous_assignment['assignmentId'] }}"></i></td> -->
                         </tr>
                     {% endfor %}
                      

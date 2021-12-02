@@ -24,9 +24,9 @@
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="faculty.html">Dash</a>
+            <a class="active" href="{{ url_for('dashboard_page')}}">Dash</a>
             <a href="#contact">Settings</a>
-            <a href="/templates/login.html">Logout</a>
+            <a href="{{ url_for('logout')}}">Logout</a>
         </div>
 
         
