@@ -191,7 +191,6 @@ def add_person(courseId):
 
 @app.route("/course/<courseId>/add-category", methods=["POST", "GET"])
 def add_category(courseId):
-    print("category is here")
     if request.method == "POST":
 
         req = request.form
@@ -281,6 +280,18 @@ def get_chat(chatId):
         if uid is not None:
             return render_template('messages.html', uid=uid, chatId=chatId, url_root=request.base_url.replace('//', '\\\\').split('/')[0].replace('\\\\', '//'))
 
+@app.route("/messages/<chatId>/add_chat", methods=["POST", "GET"])
+def add_chat(chatId):
+    if request.method == "POST":
+
+        req = request.form
+       
+        if 'chat_name' in req.keys() and 'person_name' in req.keys():
+            creatorUid = get_uid_from_session(request.cookies['Authorization'])
+            uid = get_uid_from_name(req['person_name'])
+            if uid is not None:
+                create_chat_with_user(uid, creatorUid, req['chat_name'])
+    return redirect('/messages/'+chatId)
 
 @app.route('/messages/<chatId>/json', methods=['POST'])
 def get_json_chat(chatId):

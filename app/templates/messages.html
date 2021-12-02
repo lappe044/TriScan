@@ -37,9 +37,26 @@
 
         <div class="right_content">
 
-           
+           <div id="add_message">
             <h2>Chat Messages</h2>
-
+            <button class = "add" onclick="openForm()">
+                <h5>Add</h5>
+                <div class = "add_right">
+                    <i class="fa fa-plus fa-1x" aria-hidden="true"></i>
+                </div>
+                </button>
+           </div>
+           <div class="form-popup" id="myForm">
+                <form  class="form-container" action="{{ url_for('add_chat', chatId=chatId) }}" method="POST">
+                <h3>Add Person to Chat</h3>
+                <input type="text" placeholder="Enter Chat Name" name="chat_name" id="chat_name" required>    
+                <input type="text" placeholder="Enter Person Name" name="person_name" id="person_name" required>   
+                <div id="buttons"> 
+                    <button type="submit" class="btn submit">Confirm</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                </div>              
+                </form>
+            </div>
             <div id="message_container" style="overflow: auto;">
                
 
@@ -185,7 +202,9 @@
             setInterval(function() { var this_time = Date.now()/1000; load_messages(this_time, most_recent_message); last_refresh = this_time}, 5000);
             setInterval(refresh_side_chats, 5000);
             //setInterval(load_chat_data, 5000);
-
+            function openForm() { document.getElementById("myForm").style.display = "block"; }
+ 
+            function closeForm() { document.getElementById("myForm").style.display = "none"; }
         </script>
     </div>
 </body>

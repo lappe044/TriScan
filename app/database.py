@@ -202,6 +202,17 @@ def create_chat(userId):
     mongo.db.chats.insert_one({'chatName': 'New Chat', 'chatId': chatId, 'lastMessageAt': sentAt, 'lastMessageId': None, 'members': [userId]})
     return chatId
 
+def create_chat_with_user(userId, creatorId, chatName):
+    existingChatId = list(mongo.db.chats.find({'chatName': {'$all': [chatName]}}).limit(1))
+    if len(existingChatId) > 0:
+        mongo.db.chats.update_one({'chatName': chatName}, {'$push': {'members': userId}})
+        return existingChatId
+    else:
+        chatId = str(uuid.uuid4())
+        sentAt = math.floor(time.time())
+        mongo.db.chats.insert_one({'chatName': chatName, 'chatId': chatId, 'lastMessageAt': sentAt, 'lastMessageId': None, 'members': [userId]})
+        mongo.db.chats.update_one({'chatId': chatId}, {'$push': {'members': creatorId}})
+        return chatId
 
 def get_recent_chats(userId, limit=5):
     recent_chats = list(mongo.db.chats.find({'members': {'$all': [userId]}}, {'_id': 0}).sort('lastMessageAt', -1).limit(limit))
