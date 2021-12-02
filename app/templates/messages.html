@@ -40,30 +40,14 @@
             <h2>Chat Messages</h2>
 
             <div id="message_container" style="overflow: auto;">
-
-                <!--<div class="container">
-                  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
-                  <p>Hi Alexis! I noticed some instances of plagiarism in your last assignment. Please review your report</p>
-                  <span class="time-right">11:00</span>
-                </div>
-
-                <div class="container darker">
-                  <img src="/static/images/AlexisLappe.jpg" alt="Avatar" class="right" style="width:100%;">
-                  <p>Will do! </p>
-                  <span class="time-left">11:01</span>
-                </div>
-
-                <div class="container">
-                  <img src="/static/images/dr_dave.jpeg" alt="Avatar" style="width:100%;">
-                  <p>Thank you! See you in class</p>
-                  <span class="time-right">11:02</span>
-                </div>-->
+                <form action='{{ chatId }}/send' method="post">
+                    <input type="text" id="message" name="message">
+                    <input type="submit">
+                </form>
+               
 
             </div>
-            <form action='{{ chatId }}/send' method="post">
-                <input type="text" id="message" name="message">
-                <input type="submit">
-            </form>
+            
         </div>
 
         <script>

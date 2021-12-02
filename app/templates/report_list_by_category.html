@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student Reports for all courses</title>
+    <title>Student Reports for a Course</title>
 </head>
 <body>
     <div class="content">
@@ -28,7 +28,7 @@
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p> Hi {{ student_name }}!</p>
+                        <p>{{ course }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
@@ -36,15 +36,24 @@
                 </div>
             
             </div>
-            <h1>Reports Available</h1>
+            <h1>Reports Available for {{courseName}}</h1>
             <table>
                 <tr>
                     <th>Coursework Name</th>
-                    <th>Class</th>
+                    <th>Category</th>
+                    <th>Due Date</th>
                     <th>View</th>
                 </tr>
-                
-              <!----Insert a double for loop for all assignments in each of the classes if possible-->
+                <!--
+                {% for assignment in assignments['upcoming'] display all reports for a %}
+                    <tr>
+                        <td>{{ assignment['assignmentName'] }}</td>
+                        <td>{{ assignment['category'] }}</td>
+                        <td>{{ assignment['dueAt'] }}</td>
+                        <td ><button id="upload-button" onclick="openForm2()"><i  class="fa fa-upload" aria-hidden="true"></i></button></td>
+                    </tr>
+                {% endfor %}
+                -->
             </table>
             
       </div>

@@ -108,10 +108,27 @@ def categories():
     return render_template("/categories.html")
 
 
-@app.route("/report")
-def report():
+@app.route("/course/<courseId>/reports")
+def list_reports(courseId):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    role = get_role_from_uid(uid)
+    if uid is not None:
+        if role == 'Student':
+            courseSection = get_course_section(courseId)
+            courseName = get_course_name(courseId)
+            assignments = get_assignments(uid, courseId)
+            return render_template("/report_list_by_student.html", assignments=assignments, course=courseSection, courseId=courseId, courseName=courseName)
+        if role == 'Faculty':
+            students = get_students(courseId)
+            course = get_course_section(courseId)
+            categories = get_categories(courseId)
+            return render_template("/report_list_by_category.html", course=course, students=students, categories=categories, courseId=courseId)
 
-    return render_template("/report.html")
+@app.route("/reports/<student_name>/<courses>")
+def reports(courses, student_name):
+    uid = get_uid_from_session(request.cookies['Authorization'])
+    if uid is not None:
+        return render_template("/report.html", courses=courses, student_name=student_name)
 
 
 @app.route("/course/<courseId>/students")
@@ -126,12 +143,13 @@ def list_courses(courseId):
     role = get_role_from_uid(uid)
     if uid is not None:
         if role == 'Student':
-            course = get_course_name(courseId)
+            course = get_course_section(courseId)
             assignments = get_assignments(uid, courseId)
-            return render_template("/class.html", assignments=assignments, course=course)
+            print(courseId)
+            return render_template("/class.html", assignments=assignments, course=course, courseId=courseId)
         if role == 'Faculty':
             students = get_students(courseId)
-            course = get_course_name(courseId)
+            course = get_course_section(courseId)
             categories = get_categories(courseId)
             return render_template("/faculty_course_view.html", course=course, students=students, categories=categories, courseId=courseId)
 

@@ -16,7 +16,7 @@
 #view_report {
   background: #2e8db6;
   border: none;
-  width: 6rem;
+  width: 7rem;
   height: 3rem;
   margin-left: 500px;
   border-radius: 30px;
@@ -24,6 +24,7 @@
   text-align: center;
   display: flex;
   cursor: pointer;
+  margin-top: 5rem;
 }
 
 
@@ -52,6 +53,32 @@
   font-family: "Times New Roman", Times, serif;
 }
 
+#myForm2 {
+  position: absolute;
+  right: 3rem;
+  top: 30%;
+
+}
+
+.form-container > h3 {
+  text-align: center;
+}
+#buttons {
+  margin-top: 0.5rem;
+}
+
+tr:nth-child(odd) td  #upload-button, tr:nth-child(odd) td  #download-button{
+  background-color: white;
+  border-color: white;
+}
+tr:nth-child(even) td  #upload-button, tr:nth-child(even) td  #download-button{
+  background-color: #dddddd;
+  border-color: #dddddd;
+}
+#upload-button, #download-button {
+  cursor: pointer;
+  border-style: unset;
+}
 /* Full-width input fields */
 .form-container input[type="text"],
 .form-container input[type="password"] {
@@ -84,7 +111,7 @@
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {
-  background-color: red;
+  background-color: darkred;
   margin-left: 5px;
 }
 
