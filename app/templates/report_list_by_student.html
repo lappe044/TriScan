@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student Reports for all courses</title>
+    <title>Student Reports for a Course</title>
 </head>
 <body>
     <div class="content">
@@ -36,13 +36,13 @@
                 </div>
             
             </div>
-            <h1>Reports Available</h1>
+            <h1>Reports Available for {{courseName}}</h1>
             <table>
                 <tr>
                     <th>Coursework Name</th>
                     <th>Category</th>
                     <th>Due Date</th>
-                    <th>Upload</th>
+                    <th>View</th>
                 </tr>
                 {% for assignment in assignments['upcoming'] %}
                     <tr>

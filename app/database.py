@@ -224,9 +224,13 @@ def load_messages(chatId, limit=5, before=None, after=0):
     return response
 
 
+def get_course_section(courseId):
+    course = mongo.db.courses.find_one({"courseId": courseId})
+    section = course['courseSection']
+    return section
 def get_course_name(courseId):
     course = mongo.db.courses.find_one({"courseId": courseId})
-    name = course['courseSection']
+    name = course['courseName']
     return name
 
 
