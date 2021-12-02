@@ -100,7 +100,10 @@ def get_courses(uid):
 
 def get_uid_from_name(name):
     user = mongo.db.users.find_one({'fullName': name}, {'_id': 0})
-    return user['uid']
+    if user is not None:
+        return user['uid']
+    else:
+        return None
     
 
 def get_submissions(uid,assignmentId):
@@ -142,7 +145,7 @@ def get_assignments(uid, courseid):
 
 
 #KEVIN PLEASE SEE IF YOU CAN GET THIS TO WORK worst case we use a text file instead of a pdf to show we can do something
-def upload_file_to_database(file_name, file_contents, file_obj, courseId):
+def upload_file_to_database(file_name, file_contents, file_obj, courseId, submissionId, assignmentId, uid):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_obj)
 
@@ -187,10 +190,26 @@ def upload_file_to_database(file_name, file_contents, file_obj, courseId):
 
     tokenized_text = sent_tokenize(text)
 
+    #MAKE REPORT
+    reportId = str(uuid.uuid4())
+    report = {
+        'reportId': reportId,
+        'submissionId': submissionId,
+        'courseId': courseId,
+        'assignmentId': assignmentId,
+        'uid': uid,
+        'files': fileId, # supposed to be an array, but we've got code that works with it already and i cba to break everything. and is also meant to be the highlighted version, but...
+        'submittedAt': math.floor(time.time()),
+        'references': [],
+        'reportPermittedUsers': [uid], # need to make it so the teacher is in there, but for now only student can see right away.
+        'grammarErrors': [],
+        'scoring': {'plagiarism': 0, 'grammar': 0, 'similarities': 0}
+    }
+    mongo.db.reports.insert_one(report)
+
     # send each sentence to grammar checker
     for d in tokenized_text:
-        grammar_check_file(d, courseId)
-
+        grammar_check_file(d, reportId)
 
     return file
 
@@ -200,11 +219,11 @@ def get_file(fileId):
 
 
 # This LIBRARY WE'RE USING DOESN'T ALLOW FOR MORE THAN 300 CHARS PER REQUEST. WE NEED TO SPLIT THE TEXT BY SENTENCES / MAX 300 CHARS
-def grammar_check_file(text, courseId):
+def grammar_check_file(text, reportId):
     gingered_dict = GingerIt().parse(text)
     print(gingered_dict)
     for fix in gingered_dict['corrections']:
-        mongo.db.reports.update_one({'courseId': courseId}, {'$push': {'grammarErrors': fix}})
+        mongo.db.reports.update_one({'reportId': reportId}, {'$push': {'grammarErrors': fix}})
 
 
 def get_students(courseId):

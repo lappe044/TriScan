@@ -138,18 +138,22 @@ def reports(student_name):
             assignments = get_assignments(uid, course["courseId"])
             previousAssignment = assignments['previous']
             for assign in previousAssignment:
-                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))[0]
-                report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
-                permitted_users = report['reportPermittedUsers']
-                for p in permitted_users:
-                    if p == uid:
-                        reports.append(report)
-                        submissions.append(assign)
-                        assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
-                        print(assignment)
-                        assignmentsList.append(assignment)
-        
-    return render_template("/report.html", courses=courses, student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList)
+                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
+                if len(most_recent_submission) > 0:
+                    most_recent_submission = most_recent_submission[0]
+                    report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                    permitted_users = report['reportPermittedUsers']
+                    for p in permitted_users:
+                        if p == uid:
+                            reports.append(report)
+                            submissions.append(assign)
+                            assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
+                            print(assignment)
+                            assignmentsList.append(assignment)
+    try:
+        return render_template("/report.html", courses=courses, student_name=student_name, reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList)
+    except:
+        return redirect('/dashboard') #there if it fails to actually run
 
 #can maybe add faculty functionality to this? check for role then render
 @app.route("/reports/<student_name>/<reportId>")
@@ -285,10 +289,12 @@ def upload_file(courseId):
                         print(filename)
                         print(courseId)
                         print(assignmentId)
-                        file_data = upload_file_to_database(filename, file_content, file, courseId)
-                        print(file_data)
 
                         submissionId = str(uuid.uuid4())
+
+                        file_data = upload_file_to_database(filename, file_content, file, courseId, submissionId, assignmentId, uid)
+                        print(file_data)
+
                         submissions_object = {
                             'submissionId': submissionId,
                             'uid': uid,
