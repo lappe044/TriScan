@@ -1,8 +1,9 @@
-from flask import render_template, request, redirect, make_response, jsonify, send_file, url_for
+from flask import render_template, request, redirect, make_response, jsonify, send_file, url_for, abort
 from app import app
 from app.database import *
 from werkzeug.utils import secure_filename
 import math
+import gridfs
 from itertools import zip_longest
 
 
@@ -176,7 +177,7 @@ def list_courses(courseId):
             course = get_course_section(courseId)
             assignments = get_assignments(uid, courseId)
             print(courseId)
-            return render_template("/class.html", assignments=assignments, course=course, courseId=courseId)
+            return render_template("/class.html", assignments=assignments, course=course, courseId=courseId, url_root=request.base_url.replace('//', '\\\\').split('/')[0].replace('\\\\', '//'))
         if role == 'Faculty':
             students = get_students(courseId)
             course = get_course_section(courseId)
@@ -263,7 +264,11 @@ def upload_file(courseId):
                     filename = secure_filename(file.filename)
                     assignmentId = request.form['assignmentId']
                     if len(assignmentId) > 0 and len(courseId) > 0:
-                        file_data = upload_file_to_database(filename, file, courseId)
+                        file_content = file.read()
+                        print(filename)
+                        print(courseId)
+                        print(assignmentId)
+                        file_data = upload_file_to_database(filename, file_content, file, courseId)
                         print(file_data)
 
                         submissionId = str(uuid.uuid4())
@@ -363,3 +368,32 @@ def get_profile_picture(uid):
             # MOVING ON TO KEEP PROGRESS.
         else:
             return send_file('static/images/default_profile_picture.jpg', mimetype='image/gif')
+
+
+@app.route('/download/<fileId>', methods=['GET'])
+def download_file(fileId):
+    file_name = mongo.db.files.find_one({'fileId': fileId})
+    if file_name is None:
+        # is likely submission id
+        submission_data = mongo.db.submissions.find_one({'submissionId': fileId})
+        if submission_data is not None:
+            fileId = submission_data['files'][0]
+            print(fileId)
+            file_name = mongo.db.files.find_one({'fileId': fileId})
+            file_name = mongo.db.files.find_one({'fileId': fileId})
+            print(file_name)
+        else:
+            abort(404)
+    file_data = mongo.db.fs.files.find_one({'filename': fileId})
+
+    if file_data is None or file_name is None:
+        abort(404)
+
+    fs = gridfs.GridFS(mongo.db)
+
+    file_binary = fs.get(file_data['_id']).read()
+
+    response = make_response(file_binary)
+    response.headers.set('Content-Disposition', 'attachment', filename=f'{file_name["fileName"]}')
+
+    return response

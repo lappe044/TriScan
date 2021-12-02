@@ -1,4 +1,6 @@
+import io
 import math
+import os
 import time
 import uuid
 from app.config import *
@@ -9,6 +11,7 @@ import nltk
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize, wordpunct_tokenize
 import PyPDF2
+import textract
 
 
 def get_hash(password):
@@ -122,6 +125,7 @@ def get_assignments(uid, courseid):
         if len(submissions) > 0:
             assignment['submissions'] = submissions
             assignment['submitted'] = True
+            assignment['submissionId'] = submissions[-1]['submissionId']
             previous_coursework.append(assignment)
         else:
             if dueAt_int < time.time():
@@ -136,10 +140,11 @@ def get_assignments(uid, courseid):
 
     return assignments_returnable
 
+
 #KEVIN PLEASE SEE IF YOU CAN GET THIS TO WORK worst case we use a text file instead of a pdf to show we can do something
-def upload_file_to_database(file_name, file_contents, courseId):
+def upload_file_to_database(file_name, file_contents, file_obj, courseId):
     fileId = str(uuid.uuid4())
-    mongo.save_file(fileId, file_contents)
+    mongo.save_file(fileId, file_obj)
 
     file = {
         "fileId": fileId,
@@ -147,34 +152,46 @@ def upload_file_to_database(file_name, file_contents, courseId):
     }
 
     mongo.db.files.insert_one(file)
-    file = get_file(fileId)
-    
- 
-    # creating a pdf file object
-    pdfFileObj = open(file, 'rb')
-    
-    # creating a pdf reader object
-    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-    
-    # printing number of pages in pdf file
-    print(pdfReader.numPages)
-    
-    for page in pdfReader.numPages:
-        # creating a page object
-        pageObj = pdfReader.getPage(page)
-   
-        # extracting text from page
-        data = pageObj.extractText()
 
-        #split into sentences
-        sent_tokenize(data)
-        
-        #send each sentence to grammar checker
-        for d in data:
-            grammar_check_file(d, courseId)
-    
-    # closing the pdf file object
-    pdfFileObj.close()
+    # VERY BAD IMPLEMENTATION, BUT ANYTHING TO GET IT TO WORK...
+
+
+    if file_name[-4:].lower() == '.doc' or file_name[-5:].lower() == '.docx':
+
+        try:
+            os.mkdir('temp_files')
+        except:
+            pass
+
+        f = open(f'temp_files/{file_name}', 'wb')
+        f.write(file_contents)
+        f.flush()
+
+        text = textract.process(f'temp_files/{file_name}').decode()
+
+
+    elif file_name[-4:].lower() == '.pdf':
+
+        file_binary = io.BytesIO(file_contents)
+
+        # creating a pdf reader object
+        pdfReader = PyPDF2.PdfFileReader(file_binary)
+        print(pdfReader.numPages)
+
+        text = ''
+
+        for page in range(0, pdfReader.numPages):
+            pageObj = pdfReader.getPage(page)
+            text += '\n' + pageObj.extractText()
+
+
+    tokenized_text = sent_tokenize(text)
+
+    # send each sentence to grammar checker
+    for d in tokenized_text:
+        grammar_check_file(d, courseId)
+
+
     return file
 
 
