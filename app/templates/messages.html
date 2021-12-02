@@ -25,7 +25,7 @@
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="{{url_for('dashboard_page')}}">Dash</a>
+            <a href="{{url_for('dashboard_page')}}">Dash</a>
             <a href="{{url_for('logout')}}">Logout</a>
 
             <hr>
@@ -37,17 +37,21 @@
 
         <div class="right_content">
 
+           
             <h2>Chat Messages</h2>
 
             <div id="message_container" style="overflow: auto;">
-                <form action='{{ chatId }}/send' method="post">
-                    <input type="text" id="message" name="message">
-                    <input type="submit">
-                </form>
                
 
             </div>
-            
+            <div id="message_bar">
+                <form action='{{ chatId }}/send' method="post">
+                    <div id="button-container">
+                        <input type="text" id="message" name="message">
+                        <input class="btn" type="submit">
+                    </div>
+                </form>
+            </div>
         </div>
 
         <script>
@@ -158,7 +162,7 @@
 
                             chat_link = document.createElement('a');
                             chat_link.href = '{{ url_root }}/messages/'+json[chat]['chatId'];
-                            chat_link.innerHTML = json[chat]['members']['firstName'];
+                            chat_link.innerHTML = json[chat]['chatName'];
 
                             console.log(json[chat]['chatId']);
 

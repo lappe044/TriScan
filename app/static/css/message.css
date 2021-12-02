@@ -40,3 +40,38 @@
   float: left;
   color: #999;
 }
+
+h2 {
+  text-align: center;
+}
+
+#message_bar {
+  height: 5rem;
+}
+#message {
+  height: 4rem;
+  width: 60rem;
+}
+
+/* Set a style for the submit/login button */
+.btn {
+  background-color: #2e8db6;
+  color: white;
+  border: none;
+  padding: 0.5rem 0; 
+  margin-bottom: .75rem;
+  width: 10%;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+#button-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"]:focus {
+  background-color: #f1f1f1;
+  outline: none;
+}
