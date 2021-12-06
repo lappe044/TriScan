@@ -47,13 +47,14 @@
         </div>
 
         <div class="form-popup" id="myForm">
-            <form action="/templates/report.html" class="form-container">
-              <h3>Send Report To: </h3>
+            <form action="{{ url_for('add_person_to_report', reportId=reportId, student_name=name) }}" method="POST" class="form-container">
+                <h3>Send Report To: </h3>
 
-              <input type="text" placeholder="Enter Student Name" name="name" required>
-            
-              <button type="submit" class="btn">Send</button>
-              <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                <input type="text" placeholder="Enter Student Name" name="name" required>
+                <div id="buttons">
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                </div>
             </form>
           </div>
 
@@ -138,6 +139,10 @@
                 </div>
         
         </div>   
+        <script>
+            function openForm() { document.getElementById("myForm").style.display = "block"; }
+            function closeForm() { document.getElementById("myForm").style.display = "none"; }
+        </script>
 
 </body>
 

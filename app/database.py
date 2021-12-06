@@ -335,6 +335,10 @@ def add_to_roster(courseId, uid):
 
     mongo.db.courses.update_one({'courseId': courseId}, {'$push': {'members': uid}})
 
+def add_to_report(reportId, uid):
+
+    mongo.db.courses.update_one({'reportId': reportId}, {'$push': {'reportPermittedUsers': uid}})
+
 
 def delete_user_from_roster(courseId, uid):
   

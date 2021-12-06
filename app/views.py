@@ -297,6 +297,21 @@ def add_person(courseId):
                 print("User is not registered")
     return redirect('/course/'+courseId)
 
+@app.route("/reports/<reportId>/student_name/<student_name>/add", methods=["POST", "GET"])
+def add_person_to_report(reportId, student_name):
+    if request.method == "POST":
+
+        req = request.form
+        print(req)
+        if 'name' in req.keys():
+
+            uid = get_uid_from_name(req['name'])
+            if uid is not None:
+                add_to_report(reportId, uid)
+            else:
+                print("User is not registered")
+    return redirect('/reports/student_name/'+student_name+'/'+reportId)
+
 @app.route("/course/<courseId>/add-category", methods=["POST", "GET"])
 def add_category(courseId):
     if request.method == "POST":
