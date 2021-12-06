@@ -114,25 +114,40 @@ def categories():
 def list_reports(courseId, student_name):
     uid = get_uid_from_session(request.cookies['Authorization'])
     role = get_role_from_uid(uid)
+    studentUid = get_uid_from_name(student_name)
     if uid is not None:
         reports = []
         assignmentsList =[]
         submissions= []
         assignments = get_assignments(uid, courseId)
         previousAssignment = assignments['previous']
+        print(previousAssignment)
         for assign in previousAssignment:
-            most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
-            if len(most_recent_submission) > 0:
-                most_recent_submission = most_recent_submission[0]
-                report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
-                permitted_users = report['reportPermittedUsers']
-                for p in permitted_users:
-                    if p == uid:
-                        reports.append(report)
-                        submissions.append(assign)
-                        assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
-                        print(assignment)
-                        assignmentsList.append(assignment)
+            if studentUid != uid:
+                most_recent_submission = list(mongo.db.submissions.find({'uid': studentUid,'assignmentId': assign['assignmentId'], 'courseId': courseId}).sort('_id', -1))
+                print(most_recent_submission)
+                if len(most_recent_submission) > 0:
+                    most_recent_submission = most_recent_submission[0]
+                    report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                    permitted_users = report['reportPermittedUsers']
+                    for p in permitted_users:
+                        if p == uid:
+                            reports.append(report)
+                            submissions.append(assign)
+                            assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId'], 'courseId': courseId})
+                            assignmentsList.append(assignment)
+            else: 
+                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
+                if len(most_recent_submission) > 0:
+                    most_recent_submission = most_recent_submission[0]
+                    report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
+                    permitted_users = report['reportPermittedUsers']
+                    for p in permitted_users:
+                        if p == uid:
+                            reports.append(report)
+                            submissions.append(assign)
+                            assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
+                            assignmentsList.append(assignment)
         courseSection = get_course_section(courseId)
         courseName = get_course_name(courseId)
         if role == 'Student':
@@ -170,8 +185,9 @@ def reports(student_name):
         return redirect('/dashboard') #there if it fails to actually run
 
 #can maybe add faculty functionality to this? check for role then render
-@app.route("/reports/<student_name>/<reportId>")
+@app.route("/reports/student_name/<student_name>/<reportId>", methods = ["GET"])
 def generated_reports(reportId, student_name):
+    print ("reported")
     uid = get_uid_from_session(request.cookies['Authorization'])
     if uid is not None:
         role = get_role_from_uid(uid)
@@ -191,7 +207,7 @@ def generated_reports(reportId, student_name):
 
 
 
-@app.route("/course/<courseId>/<category>/reports")
+@app.route("/course/<courseId>/<category>/")
 def generate_category_reports(courseId, category):
     uid = get_uid_from_session(request.cookies['Authorization'])
     print(courseId)
@@ -199,11 +215,12 @@ def generate_category_reports(courseId, category):
         reports = []
         assignmentsList =[]
         submissions= []
+        names = []
         assignments = get_assignments(uid, courseId)
         previousAssignment = assignments['previous']
         for assign in previousAssignment:
             if assign['category'] == category:
-                most_recent_submission = list(mongo.db.submissions.find({'uid': uid, 'assignmentId': assign['assignmentId']}).sort('_id', -1))
+                most_recent_submission = list(mongo.db.submissions.find({'assignmentId': assign['assignmentId']}).sort('_id', -1))
                 if len(most_recent_submission) > 0:
                     most_recent_submission = most_recent_submission[0]
                     report = mongo.db.reports.find_one({'submissionId': most_recent_submission['submissionId']})
@@ -213,11 +230,12 @@ def generate_category_reports(courseId, category):
                             reports.append(report)
                             submissions.append(assign)
                             assignment = mongo.db.assignments.find_one({'assignmentId': assign['assignmentId']})
-                            print(assignment)
+                            names.append(get_user_from_uid(report['uid'])['fullName'])
+                            print(names)
                             assignmentsList.append(assignment)
             courseSection = get_course_section(courseId)
             courseName = get_course_name(courseId)   
-            return render_template("report_list_by_category.html", category=category, courseId=courseId,  reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, title=courseName, course=courseSection)
+            return render_template("report_list_by_category.html", category=category, courseId=courseId,  reports=reports, zip=zip, submissions = submissions, assignment=assignmentsList, title=courseName, course=courseSection, names=names)
 
 @app.route("/course/<courseId>/students")
 def student_roster(courseId):

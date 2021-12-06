@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{ assign['assignmentName'] }}</td>
                     <td>{{ assign['category'] }}</td>
-                    <td ><a href= "{{ url_for('generated_student_course_reports', reportId = report['reportId'], student_name=student_name)}}"><i  class="fa fa-plus" aria-hidden="true"></i></a></td>
+                    <td ><a href= "{{ url_for('generated_reports', reportId = report['reportId'], student_name=title)}}"><i  class="fa fa-plus" aria-hidden="true"></i></a></td>
                 </tr>
             {% endfor %}
             

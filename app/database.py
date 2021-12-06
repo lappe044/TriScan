@@ -340,16 +340,53 @@ def delete_user_from_roster(courseId, uid):
   
     mongo.db.courses.update_one({'courseId': courseId}, {'$pull': {'members': uid}})
 
-"""
 #can be config'd to insert data to mongo
-def make_fake_category(categoryType):
-    courseId = str(uuid.uuid4())
-
-    cat_object = {
-        'courseId': courseId,
-        'courseCategories': categoryType,
+def make_fake_users(firstName, lastName, email):
+    passwordHash = get_hash('password')
+    uid = str(uuid.uuid4())
+    user = {
+        'uid': uid,
+        'role': 'Student',
+        'firstName': firstName,
+        'lastName': lastName,
+        'fullName': firstName+' '+lastName,
+        'profilePicture': None
     }
-    mongo.db['categories'].insert_one(cat_object)
-    return courseId
-    """
+    credentials = {
+        'uid': uid,
+        'email': email,
+        'passwordHash': passwordHash
+    }
+    mongo.db.credentials.insert_one(credentials)
+    mongo.db.users.insert_one(user)
+    return uid
+"""
+make_fake_users("Aadarsh", "Akula", "aadarshakula@gmail.com")
+make_fake_users("Jordan", "Allen", "jordanallen@gmail.com")
+make_fake_users("Tyler", "Baeur", "tylerbaeur@gmail.com")
+make_fake_users("Derik", "Beardshear", "derikbeardsheara@gmail.com")
+make_fake_users("Christopher", "Bennett", "christopherbennett@gmail.com")
+make_fake_users("Dylan", "Black", "dylanblack@gmail.com")
 
+make_fake_users("Evan", "Brown", "evanbrown@gmail.com")
+make_fake_users("Jiameng", "Chen", "jiamengchen@gmail.com")
+make_fake_users("Sullivan", "Eiden", "sullivaneiden@gmail.com")
+make_fake_users("Jiayu", "Fang", "jiayafang@gmail.com")
+make_fake_users("Connor", "Gravitt", "connergravitt@gmail.com")
+make_fake_users("Mitchell", "Hanson", "mitchellhanson@gmail.com")
+make_fake_users("Sam", "Heath", "samheath@gmail.com")
+make_fake_users("Yor", "Her", "yorher@gmail.com")
+make_fake_users("Austin", "High", "austinhigh@gmail.com")
+make_fake_users("Mingfu", "Haung", "minfuhaung@gmail.com")
+make_fake_users("Tyler", "Jeffries", "tylerjeffries@gmail.com")
+make_fake_users("Lucas", "Johnson", "lucasjohnson@gmail.com")
+make_fake_users("Jonas", "Kohls", "jonaskohls@gmail.com")
+make_fake_users("Jacob", "Korf", "jacobkorf@gmail.com")
+make_fake_users("Bailey", "LaBerge", "baileylaberge@gmail.com")
+make_fake_users("Corbin", "LaFleur", "corbinlafleur@gmail.com")
+make_fake_users("Matthew", "Lane", "matthewlane@gmail.com")
+make_fake_users("Zachary", "Menter", "zacharymenter@gmail.com")
+make_fake_users("Laura", "Pryor", "laurapryor@gmail.com")
+make_fake_users("Nyle", "Siddiqui", "nylesiddiqui@gmail.com")
+
+"""

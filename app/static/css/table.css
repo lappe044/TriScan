@@ -8,6 +8,13 @@ table {
   width: 80%;
   margin: auto;
   margin-top: 50px;
+  padding-bottom: 1rem;
+  
+}
+#roster {
+  overflow-y:scroll;
+  height:500px;
+  display:block;
 }
 td,
 th {
