@@ -144,7 +144,6 @@ def get_assignments(uid, courseid):
     return assignments_returnable
 
 
-#KEVIN PLEASE SEE IF YOU CAN GET THIS TO WORK worst case we use a text file instead of a pdf to show we can do something
 def upload_file_to_database(file_name, file_contents, file_obj, courseId, submissionId, assignmentId, uid):
     fileId = str(uuid.uuid4())
     mongo.save_file(fileId, file_obj)
@@ -156,9 +155,7 @@ def upload_file_to_database(file_name, file_contents, file_obj, courseId, submis
 
     mongo.db.files.insert_one(file)
 
-    # VERY BAD IMPLEMENTATION, BUT ANYTHING TO GET IT TO WORK...
-
-
+  
     if file_name[-4:].lower() == '.doc' or file_name[-5:].lower() == '.docx':
 
         try:
