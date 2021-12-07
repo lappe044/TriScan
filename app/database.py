@@ -186,7 +186,8 @@ def upload_file_to_database(file_name, file_contents, file_obj, courseId, submis
 
 
     tokenized_text = sent_tokenize(text)
-
+    uids = get_faculty(get_students(courseId))
+    print(uids)
     #MAKE REPORT
     reportId = str(uuid.uuid4())
     report = {
@@ -198,7 +199,7 @@ def upload_file_to_database(file_name, file_contents, file_obj, courseId, submis
         'files': fileId, # supposed to be an array, but we've got code that works with it already and i cba to break everything. and is also meant to be the highlighted version, but...
         'submittedAt': math.floor(time.time()),
         'references': [],
-        'reportPermittedUsers': [uid], # need to make it so the teacher is in there, but for now only student can see right away.
+        'reportPermittedUsers': uids, # need to make it so the teacher is in there, but for now only student can see right away.
         'grammarErrors': [],
         'scoring': {'plagiarism': 0, 'grammar': 0, 'similarities': 0}
     }
@@ -210,7 +211,12 @@ def upload_file_to_database(file_name, file_contents, file_obj, courseId, submis
 
     return file
 
-
+def get_faculty(data):
+    uids = []
+    for d in data:
+        if d['role'] == 'Faculty':
+            uids.append(d['uid'])
+    return uids
 def get_file(fileId):
     file = mongo.db.files.find_one({'fileId': fileId})
 
@@ -333,8 +339,7 @@ def add_to_roster(courseId, uid):
     mongo.db.courses.update_one({'courseId': courseId}, {'$push': {'members': uid}})
 
 def add_to_report(reportId, uid):
-
-    mongo.db.courses.update_one({'reportId': reportId}, {'$push': {'reportPermittedUsers': uid}})
+    mongo.db.reports.update_one({'reportId': reportId}, {'$push': {'reportPermittedUsers': uid}})
 
 
 def delete_user_from_roster(courseId, uid):
