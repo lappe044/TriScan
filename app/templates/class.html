@@ -13,163 +13,104 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    
-
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Student View</title>
 </head>
-
 <body>
-
     <div class="content">
-
-      <div class="overlay hidden"></div>
-
         <div class="sidebar">
             <a class = "picture" href="">
                 <img src="/static/images/school.jpg">
             </a>
-            <a class="active" href="{{ url_for('dashboard_page')}}">Dash</a>
-            <a href="#contact">Settings</a>
+            <a  href="{{ url_for('dashboard_page')}}">Dash</a>
             <a href="{{ url_for('logout')}}">Logout</a>
         </div>
-
-
-
         <div class="right_content">
-
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p>Software Engineering II</p>
+                        <p>{{ course }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
                     </div>
                 </div>
-
-                
-                <!-- <a  href="{{ url_for('report')}}">
-                <button class = "add_category" onclick="openForm()">
-                    <div class ="add_left">
-                        <p>View Reports</p>
-                    </div>
-                    <div class = "add_right">
-                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                    </div>
-                </button>
-              </a> -->
-
+                <a  href="{{ url_for('list_reports', courseId=courseId, student_name=name )}}">
+                    <button class = "add_category" id="view_report">
+                            <h4>View Reports</h4>
+                        <div class = "add_right">
+                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </button>
+                </a>
             </div>
-
             <h1>Upcoming Coursework</h1>
-                <table>
+            <table>
+                <tr>
+                    <th>Coursework Name</th>
+                    <th>Category</th>
+                    <th>Due Date</th>
+                    <th>Upload</th>
+                </tr>
+                {% for assignment in assignments['upcoming'] %}
                     <tr>
-                      <th>Coursework Name</th>
-                      <th>Category</th>
-                      <th>Due Date</th>
-                      <th>Upload</th>
+                        <td>{{ assignment['assignmentName'] }}</td>
+                        <td>{{ assignment['category'] }}</td>
+                        <td>{{ assignment['dueAt'] }}</td>
+                        <td ><button id="upload-button" onclick="openForm2(); document.getElementById('assignmentIdForUpload').value = '{{ assignment['assignmentId'] }}'"><i  class="fa fa-upload" aria-hidden="true"></i></button></td>
                     </tr>
-                   
-                    {% for assignment in assignments['upcoming'] %}
-                        <tr>
-                            <td>{{ assignment['assignmentId'] }}</td>
-                            <td>{{ assignment['category'] }}</td>
-                            <td>{{ assignment['dueAt'] }}</td>
-                            <td><i class="fa fa-upload" aria-hidden="true" id="{{ assignment['assignmentId'] }}"></i></td>
-                        </tr>
-                    {% endfor %}
-
-                  </table>
-
-                  <h1>Previous Coursework</h1>
-                  <table>
-                      <tr>
-                        <th>Coursework Name</th>
-                        <th>Category</th>
-                        <th>Due Date</th>
-                        <th>Action</th>
-                      </tr>
-                      {% for previous_assignment in assignments['previous'] %}
-                        <tr>
-                            <td>{{ previous_assignment['assignmentName'] }}</td>
-                            <td>{{ previous_assignment['category'] }}</td>
-                            <td>{{ previous_assignment['dueAt'] }}</td>
-                            <td><a href="{{ url_for('report')}}" style='text-decoration:underline;'>View Report</a></td>
-                            <!-- <td><i class="fa fa-download" aria-hidden="true" id="{{ previous_assignment['assignmentId'] }}"></i></td> -->
-                        </tr>
-                    {% endfor %}
-                     
-                    </table>
+                {% endfor %}
+            </table>
+            <h1>Previous Coursework</h1>
+            <table>
+                <tr>
+                  <th>Coursework Name</th>
+                  <th>Category</th>
+                  <th>Due Date</th>
+                  <th>Download</th>
+                </tr>
+                {% for previous_assignment in assignments['previous'] %}
+                  <tr>
+                      <td>{{ previous_assignment['assignmentName'] }}</td>
+                      <td>{{ previous_assignment['category'] }}</td>
+                      <td>{{ previous_assignment['dueAt'] }}</td>
+                      {% if previous_assignment['submitted'] == True %}
+                        <td><button  id="download-button"><i onclick="window.open('{{ url_root }}/download/{{ previous_assignment['submissionId'] }}')" class="fa fa-download" aria-hidden="true" id="{{ previous_assignment['submissionId'] }}"></i></button></td>
+                      {% else %}
+                        <td></td>
+                      {% endif %}
+                  </tr>
+              {% endfor %}
+               
+              </table>
             
-         
-
-
-        </div>
-
-    </div>
-
-    <form action="/upload-file/{{ courseId }}" method="POST" enctype="multipart/form-data">
-      <div class="modal hidden">
-        <h1>Upload File</h1>
-        <div>
-          <div>
-            <input class="choose-btn" name="file" type="file" />
-              <input type="hidden" name="assignmentId" id="assignmentIdForUpload" />
-          </div>
-          <button class="cancel-btn close-modal">Cancel</button>
-          <button type="submit" class="submit-btn">Upload</button>
+            <div class="form-popup" id="myForm2">
+              <form class="form-container" id="form2" action="/upload-file/{{ courseId }}" method="POST" enctype="multipart/form-data">
+              <h3>Upload File</h3>
+              <div>
+                <div>
+                  <input class="choose-btn" name="file" type="file" required/>
+                  <input type="hidden" name="assignmentId" id="assignmentIdForUpload" />
+                </div>
+                <div id="buttons">
+                  <button type="submit" class="btn submit">Upload</button>
+                  <button class="btn cancel" onclick=closeForm2()>Cancel</button>
+                </div>
+              </div>
+              </form>
+            </div>
       </div>
-     </div>
-    </form>
-
     <script>
-        function openForm() {
-          document.getElementById("myForm").style.display = "block";
+        function openForm2() {
+          document.getElementById("myForm2").style.display = "block";
         }
 
-        function closeForm() {
-          document.getElementById("myForm").style.display = "none";
+        function closeForm2() {
+          document.getElementById("myForm2").style.display = "none";
         }
 
-        const modal = document.querySelector('.modal');
-        const overlay = document.querySelector('.overlay');
-        const btnCloseModal = document.querySelector('.close-modal');
-        const btnsOpenModal = document.querySelectorAll('.show-modal');
-
-        const openModal = function (event) {
-          console.log(event.target);
-          console.log(event.target.nodeName);
-          element = event.target;
-          if(event.target.nodeName != "BUTTON"){
-            element = event.target.parentElement;
-          }
-          document.getElementById("assignmentIdForUpload").value =element.id;
-          console.log(element.id);
-          modal.classList.remove('hidden');
-          overlay.classList.remove('hidden');
-        };
-
-        const closeModal = function () {
-          modal.classList.add('hidden');
-          overlay.classList.add('hidden');
-        };
-
-        for (let i = 0; i < btnsOpenModal.length; i++)
-          btnsOpenModal[i].addEventListener('click', openModal);
-
-        btnCloseModal.addEventListener('click', closeModal);
-        overlay.addEventListener('click', closeModal);
-
-        document.addEventListener('keydown', function (e) {
-          // console.log(e.key);
-
-          if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
-          }
-        });
 
     </script>
-</body>
 
+</body>
 </html>

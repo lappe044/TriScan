@@ -1,0 +1,79 @@
+#roster-content {
+    width: 40%;
+    text-align: center;
+}
+#category-content {
+    width: 60%;
+    text-align: center;
+    background-color: lightgrey;
+    height: 100vh;
+}
+#category-header {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-flex;
+}
+#roster-header  {
+    margin: auto;
+    display: inline-flex;
+}
+.add-category {
+    display: flex;
+    width: 4rem;
+}
+.add {
+    background: #2e8db6;
+    border: none;
+    padding: 5px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0;
+    display: flex;
+  }
+
+.header {
+    width: 100%;
+}
+#container {
+    display: flex;
+}
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-left: auto;
+    flex: unset
+}
+.card {
+    min-width: 20rem;
+    min-height: 200px;
+}
+.fa-minus {
+    width: 2rem;
+    color: darkred;
+}
+.fa-book-open {
+    width: 5rem;
+    color: black;
+    height: 5rem;
+}
+#radio {
+    display: flex;
+    margin: auto;
+    padding-bottom: 1rem;
+    justify-content: space-evenly;
+    width: 100%;
+
+}
+.form-popup2 {
+    display: none;
+    position: fixed;
+    right: 3%;
+    z-index: 1;
+}

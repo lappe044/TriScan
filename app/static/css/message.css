@@ -40,3 +40,143 @@
   float: left;
   color: #999;
 }
+
+h2 {
+  text-align: center;
+}
+
+#message_bar {
+  height: 5rem;
+}
+#message {
+  height: 4rem;
+  width: 60rem;
+}
+
+/* Set a style for the submit/login button */
+.btn {
+  background-color: #2e8db6;
+  color: white;
+  border: none;
+  padding: 0.5rem 0; 
+  margin-bottom: .75rem;
+  width: 10%;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+#button-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"]:focus {
+  background-color: #f1f1f1;
+  outline: none;
+}
+
+.add {
+  background: #2e8db6;
+  border: none;
+  
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  margin: auto;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0;
+  display: flex;
+}
+
+#add_message {
+  margin: auto;
+  width: 20%;
+  display:flex;
+}
+
+.fa-plus {
+  padding-left: 0.25rem;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  right: 45%;
+  z-index: 1;
+}
+
+/* Add styles to the form container */
+.form-container {
+  box-sizing: border-box;
+  background-color: #f1f1f1;
+  color: #2e8db6;
+  padding: 0.5rem;
+  width: 13rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  margin-top: 1.5rem;
+  font-family: "Times New Roman", Times, serif;
+}
+#myForm {
+  position: absolute;
+  top: 1.5rem;
+  right: 25%;
+}
+
+.form-container > h3 {
+  text-align: center;
+}
+
+/* Full-width input fields */
+.form-container input[type="text"] {
+  width: 85%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  text-align: center;
+  border: none;
+  background: #ddd;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type="text"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #2e8db6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0; 
+  margin-bottom: .75rem;
+  width: 100%;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: darkred;
+  margin-left: 5px;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+.form-container .cancel, .form-container .submit { 
+  width: 40%;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover,
+.open-button:hover {
+  opacity: 1;
+}

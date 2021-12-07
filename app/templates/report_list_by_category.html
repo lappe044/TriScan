@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student Reports for all courses</title>
+    <title>Student Reports for a Course</title>
 </head>
 <body>
     <div class="content">
@@ -28,7 +28,7 @@
             <div class="header" style="border-bottom: none;">
                 <div class = "hello_bar">
                     <div class ="hello_left">
-                        <p> Hi {{ student_name }}!</p>
+                        <p>{{ course }}</p>
                     </div>
                     <div class = "hello_right">
                         <i class="fa fa-apple fa-3x" aria-hidden="true"></i>
@@ -36,22 +36,21 @@
                 </div>
             
             </div>
-            <h1>Reports Available</h1>
+            <h1>Reports Available for {{category}} Category</h1>
             <table>
                 <tr>
                     <th>Coursework Name</th>
-                    <th>Category</th>
+                    <th>Student</th>
                     <th>View</th>
                 </tr>
-                {% for (report, assign) in zip(reports, assignment)%}
+                {% for (report, assign, name) in zip(reports, assignment, names)%}
                 <tr>
                     <td>{{ assign['assignmentName'] }}</td>
-                    <td>{{ assign['category'] }}</td>
-                    <td ><a href= "{{ url_for('generated_reports', reportId = report['reportId'], student_name=student_name)}}"><i  class="fa fa-plus" aria-hidden="true"></i></a></td>
+                    <td>{{name}}</td>
+                    <td ><a href= "{{ url_for('generate_category_reports', reportId = report['reportId'], student_name=name, category = assign['category'], courseId=courseId)}}"><i  class="fa fa-plus" aria-hidden="true"></i></a></td>
                 </tr>
             {% endfor %}
-        </table>
-            
+            </table>    
       </div>
 
 </body>

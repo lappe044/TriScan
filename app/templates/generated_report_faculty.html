@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="/static/css/report.css">
+    <link rel="stylesheet" href="/static/css/categories.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Report</title>
+</head>
+
+<body>
+
+    <div class="content">
+
+        <div class="sidebar">
+            <a class = "picture" href="">
+                <img src="/static/images/school.jpg">
+            </a>
+            <a  href="{{ url_for('dashboard_page')}}">Dash</a>
+            <a href="{{ url_for('logout')}}">Logout</a>
+        </div>
+
+        
+        <div class= "title">
+            <!--Add dynamic assignment name here--->
+            <h1>Report for {{name}} </h1>
+        </div>
+
+        <div class = "icons_holder">
+             <!--Add kevin's download here--->
+            <a  class = "icon_a">
+                <button  id="download-button"><i onclick="window.open('{{ url_root }}/download/{{ file }}')" class="fa fa-download fa-2x" aria-hidden="true" id="{{ file }}"></i></button>
+            </a>
+            
+             <!--add funct to handle new permissions for student--->
+            <button class = "icon_a" onclick="openForm()">
+                <i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="form-popup" id="myForm">
+            <form action="{{ url_for('add_person_to_report', reportId=reportId, student_name=name) }}" method="POST" class="form-container">
+                <h3>Send Report To: </h3>
+
+                <input type="text" placeholder="Enter Student Name" name="name" required>
+                <div id="buttons">
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                </div>
+            </form>
+          </div>
+
+        <div class="right_content">
+
+                <div class = "report">
+                    <div class="error-container">
+                        {% for e in errors%}
+                      
+                            <p class="error">{{ e }}</p>
+                      
+                        {% endfor %}
+                        </div>
+                </div>
+    
+               <div class = "key">
+                    <div class = "percentages">
+                        <h2>Percentages</h2>
+                            <div id = "plag">
+                                <i class="fa fa-clipboard fa-3x" aria-hidden="true"></i>
+                                <div class = "right_bar">
+                                    <div class = "top">
+                                         <p>Plagiarism</p>
+                                    </div>
+                                    <div class = "bottom">
+                                            <span class = "plagiarism"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id ="sim">
+                                <i class="fa fa-bookmark fa-3x" aria-hidden="true" ></i>
+                                <div class = "right_bar">
+                                    <div class = "top">
+                                        <p>Similarities</p>
+                                   </div>
+                                   <div class = "bottom">
+                                           <span class = "similarities"></span>
+                                   </div>
+                                </div>
+            
+                            </div>
+                            
+                            <div id = "gram">
+                                <i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+                                <div class = "right_bar">
+                                    <div class = "top">
+                                        <p>Grammatical Errors</p>
+                                   </div>
+                                   <div class = "bottom">
+                                           <span class = "grammatical_errors"></span>
+                                   </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class = "space"></div>
+                    <div class = "references">
+                        <h2>References</h2>
+                        <div class = "reference">
+                            <button class = "num">1</button>
+                            <div class = "website">
+                                <p>https://en.wikipedia.org/wiki/Main_Page</p>
+                            </div>
+                        </div>
+                        <div class = "reference">
+                            <button class = "num">2</button>
+                            <div class = "website">
+                                <p>https://en.wikipedia.org/wiki/Main_Page</p>
+                            </div>
+                        </div>
+                        <div class = "reference_last">
+                            <button class = "num">3</button>
+                            <div class = "website">
+                                <p>https://en.wikipedia.org/wiki/Main_Page</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    </div>
+
+                </div>
+                
+                </div>
+        
+        </div>   
+        <script>
+            function openForm() { document.getElementById("myForm").style.display = "block"; }
+            function closeForm() { document.getElementById("myForm").style.display = "none"; }
+        </script>
+
+</body>
+
+</html>

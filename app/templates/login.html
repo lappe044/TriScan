@@ -23,11 +23,9 @@
     </style>
 </head>
 <body>
-
-        <div id = "background">
-
+    <div id = "background">
         <div id = "container">
-            
+
             <form action="{{ url_for('login')}}" method="post">
 
             <h3>TriScan</h3>
@@ -37,17 +35,15 @@
 
             <button type="submit" onsubmit="document.location.href='{{ url_for('login') }}'">Login</button>
 
-            
             <!----put into flexbox-->
             
+
             <button type = "button" class="create" onclick="document.location.href='{{ url_for('sign_up') }}'">Create Account</button>
-            <button type = "button" class="pass" onclick="document.location.href='{{ url_for('forgot_password') }}'">Forget password?</button>
-    
+            <button type = "button" class="pass" onclick="document.location.href='{{ url_for('forgot_password') }}'">Forget Password?</button>
+
             </form>
-            
-              
         </div> 
-        </div>
+    </div>
        
 </body>
 </html>
